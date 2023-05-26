@@ -1,18 +1,10 @@
-import sys
-sys.path.append('../generatedProto')
-
-import unittest
-from python_Primitives_Server import serve
+import logging
 from python_Primitives_Server import serve
 from python_Primitives_Server import DistributedElements
-import generatedProto.basicMessages_pb2 as basicMsg
+
+import python_Primitives_Server.generatedProto.basicMessages_pb2 as basicMsg
 from typing import Generator
 
-class TestMyClass(unittest.TestCase):
-    # test methods' names should begin with `test_`
-    def test_my_method(self):
-        serve(NtPrimitive(), "nt", 1, 8081, "customLibrary")
-        
 class NtPrimitive(DistributedElements.DistributedPrimitive):
     
     def solve(self, request: DistributedElements.DistributedRequest) -> Generator[DistributedElements.DistributedResponse, None, None]:
@@ -28,3 +20,9 @@ class NtPrimitive(DistributedElements.DistributedPrimitive):
             yield request.replySuccess(hasNext = False)
         else:
             yield request.replyFail()
+    
+if __name__ == '__main__':
+    logging.basicConfig()
+    serve(NtPrimitive(), "nt", 1, 8081, "customLibrary")
+    
+        

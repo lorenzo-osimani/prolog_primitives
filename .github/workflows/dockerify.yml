@@ -10,7 +10,7 @@ on:
       - master
       - develop
 env:
-  PROJECT_NAME: my_project
+  PROJECT_NAME: python_Primitives_Server
   WORKFLOW: dockerify
   RETRY_TIME: 5m
   MAX_RETRIES: 3

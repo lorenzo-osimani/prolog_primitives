@@ -60,15 +60,15 @@ class GetVersionCommand(distutils.cmd.Command):
         print(version)
 
 setup(
-    name='my_project',  # Required
+    name='python_Primitives_Server',  # Required
     version=version,
     description='description here',
     license='Apache 2.0 License',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/aequitas-aod/my_project',
-    author='Name Surname',
-    author_email='name.surname@organization.domain',
+    url='https://github.com/aequitas-aod/python_Primitives_Server',
+    author='Lorenzo Osimani',
+    author_email='lorenzo.osimani@studio.unibo.it',
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
@@ -76,7 +76,7 @@ setup(
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.11.3',
         'Programming Language :: Python :: 3 :: Only',
         'Programming Language :: Prolog'
     ],
@@ -84,18 +84,21 @@ setup(
     # package_dir={'': 'src'},  # Optional
     packages=find_packages(),  # Required
     include_package_data=True,
-    python_requires='>=3.9.0, <3.10',
+    python_requires='>=3.9.0, <=3.11.3',
     install_requires=[
         'scikit-learn>=1.0.2',
         'pandas>=1.4.2',
+        'grpio>=1.54.0',
+        'grpcio-tools>=1.54.0pp',
+        'pymongo>=4.3.3'
     ],  # Optional
     zip_safe = False,
     platforms = "Independant",
     project_urls={  # Optional
-        'Bug Reports': 'https://github.com/aequitas-aod/my_project/issues',
+        'Bug Reports': 'https://github.com/aequitas-aod/python_Primitives_Server/issues',
         # 'Funding': 'https://donate.pypi.org',
         # 'Say Thanks!': 'http://saythanks.io/to/example',
-        'Source': 'https://github.com/aequitas-aod/my_project',
+        'Source': 'https://github.com/aequitas-aod/python_Primitives_Server',
     },
     cmdclass={
         'get_project_version': GetVersionCommand,
