@@ -71,11 +71,22 @@ class DistributedRequest:
     def subSolve(self, query: basicMsg.StructMsg, timeout: int = int(math.log2(sys.maxsize * 2 + 2))) -> Generator[primitivesMsg.SolutionMsg, None, None]:
         return self.session.subSolve(query, timeout)
         
-        
     def readLine(self, channelName: str) -> str:
         return self.session.readLine(channelName)    
-        
     
+    def inspectKb(
+        self,
+        kbType: primitivesMsg.InspectKbMsg.KbType,
+        filters: list[tuple[primitivesMsg.InspectKbMsg.FilterType, str]],
+        maxClauses: int = -1
+        ) -> Generator[basicMsg.StructMsg, None, None]:
+        return self.session.inspectKb(kbType, maxClauses, filters)
+    
+    def getElement(
+        self,
+        type: primitivesMsg.GenericGetMsg.Element
+    ) -> primitivesMsg.GenericGetResponse:
+        return self.session.genericGet(type)
 
 class DistributedResponse:
     solution: primitivesMsg.SolutionMsg
@@ -90,3 +101,13 @@ class DistributedPrimitive(ABC):
     @abstractmethod
     def solve(self, request: DistributedRequest) -> Generator[DistributedResponse, None, None]:
         pass
+    
+class DistributedPrimitiveWrapper:
+    functor: str
+    arity: int
+    primitive: DistributedPrimitive
+    
+    def __init__(self, functor: str,  arity: int, primitive: DistributedPrimitive):
+        self.functor = functor
+        self.arity = arity
+        self.primitive = primitive

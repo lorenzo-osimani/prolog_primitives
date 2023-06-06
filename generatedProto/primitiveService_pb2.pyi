@@ -1,6 +1,6 @@
-import basicMessages_pb2 as _basicMessages_pb2
-import sideEffectsMessages_pb2 as _sideEffectsMessages_pb2
-import errorsMessages_pb2 as _errorsMessages_pb2
+from . import basicMessages_pb2 as _basicMessages_pb2
+from . import sideEffectsMessages_pb2 as _sideEffectsMessages_pb2
+from . import errorsMessages_pb2 as _errorsMessages_pb2
 from google.protobuf.internal import containers as _containers
 from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor

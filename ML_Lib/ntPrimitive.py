@@ -1,17 +1,10 @@
-import sys
-sys.path.append('../generatedProto')
-
-import unittest
-from python_Primitives_Server.PrimitiveWrapper import serve
 from python_Primitives_Server import DistributedElements
 from generatedProto import basicMessages_pb2 as basicMsg
 from typing import Generator
 
-class TestMyClass(unittest.TestCase):
-    # test methods' names should begin with `test_`
-    def test_my_method(self):
-        serve(NtPrimitive(), "nt", 1, 8081, "customLibrary")
-        
+# this is the main module of your app
+# it is only required if your project must be runnable
+# this is the script to be executed whenever some users writes `python -m python-Primitives-Server` on the command line, eg.
 class NtPrimitive(DistributedElements.DistributedPrimitive):
     
     def solve(self, request: DistributedElements.DistributedRequest) -> Generator[DistributedElements.DistributedResponse, None, None]:
@@ -23,7 +16,7 @@ class NtPrimitive(DistributedElements.DistributedPrimitive):
                 substitutions[arg0.var] = basicMsg.ArgumentMsg(constant=str(n))
                 yield request.replySuccess(substitutions = substitutions)
                 n += 1
-        elif(arg0.HasField("constant") and int(arg0.constant)):
+        elif(arg0.HasField("constant") and arg0.constant.isdigit()):
             yield request.replySuccess(hasNext = False)
         else:
             yield request.replyFail()

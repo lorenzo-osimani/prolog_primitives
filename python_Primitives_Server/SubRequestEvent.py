@@ -60,4 +60,68 @@ class SingleSubSolveEvent(SubRequestEvent):
     
     def awaitResult(self) -> primitiveMsg.SolutionMsg:
         return self.future.result()
+    
+from enum import Enum
+    
+class SingleInspectKBEvent(SubRequestEvent):  
+    
+    id: str
+    msg: primitiveMsg.GeneratorMsg
+    future: Future[basicMsg.StructMsg]
+    
+    def __init__(
+        self, 
+        id: str,
+        kbType: primitiveMsg.InspectKbMsg.KbType,
+        maxClauses: int,
+        filters: list[tuple[primitiveMsg.InspectKbMsg.FilterType, str]]
+        ):
+        filtersMsg = list(map(
+            lambda pair: primitiveMsg.InspectKbMsg.FilterMsg(type = pair[0], argument = pair[1]),
+            filters))
+        self.id = id
+        self.msg = primitiveMsg.GeneratorMsg(
+            request = primitiveMsg.SubRequestMsg(
+                id = id,
+                inspectKb = primitiveMsg.InspectKbMsg(
+                    kbType=kbType, maxClauses=maxClauses, filters=filtersMsg
+                    )
+                )
+            )
+        self.future = Future()
+    
+    def signalResponse(self, msg: primitiveMsg.SubResponseMsg):
+        self.future.set_result(msg.clause)
+    
+    def awaitResult(self) -> basicMsg.StructMsg:
+        return self.future.result()
+    
+class GenericGet(SubRequestEvent):  
+    
+    id: str
+    msg: primitiveMsg.GeneratorMsg
+    future: Future[primitiveMsg.GenericGetResponse]
+    
+    def __init__(
+        self, 
+        id: str,
+        type: primitiveMsg.GenericGetMsg.Element
+        ):
+        self.id = id
+        self.msg = primitiveMsg.GeneratorMsg(
+            request = primitiveMsg.SubRequestMsg(
+                id = id,
+                genericGet = primitiveMsg.GenericGetMsg(
+                    element = type
+                    )
+                )
+            )
+        self.future = Future()
+    
+    def signalResponse(self, msg: primitiveMsg.SubResponseMsg):
+        self.future.set_result(msg.genericGet)
+    
+    def awaitResult(self) -> primitiveMsg.GenericGetResponse:
+        return self.future.result()
+
         

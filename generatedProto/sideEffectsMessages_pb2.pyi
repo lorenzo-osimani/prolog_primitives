@@ -169,6 +169,20 @@ class SideEffectMsg(_message.Message):
     runtime: AlterRuntimeMsg
     def __init__(self, clauses: _Optional[_Union[SetClausesOfKBMsg, _Mapping]] = ..., flags: _Optional[_Union[AlterFlagsMsg, _Mapping]] = ..., runtime: _Optional[_Union[AlterRuntimeMsg, _Mapping]] = ..., operators: _Optional[_Union[AlterOperatorsMsg, _Mapping]] = ..., channels: _Optional[_Union[AlterChannelsMsg, _Mapping]] = ..., customData: _Optional[_Union[AlterCustomDataMsg, _Mapping]] = ...) -> None: ...
 
+class UpdateFromSessionMsg(_message.Message):
+    __slots__ = ["type"]
+    class UpdateType(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+        __slots__ = []
+    DYNAMIC_KB: UpdateFromSessionMsg.UpdateType
+    FLAGS: UpdateFromSessionMsg.UpdateType
+    INPUT_CHANNELS: UpdateFromSessionMsg.UpdateType
+    OPERATORS: UpdateFromSessionMsg.UpdateType
+    OUTPUT_CHANNELS: UpdateFromSessionMsg.UpdateType
+    STATIC_KB: UpdateFromSessionMsg.UpdateType
+    TYPE_FIELD_NUMBER: _ClassVar[int]
+    type: UpdateFromSessionMsg.UpdateType
+    def __init__(self, type: _Optional[_Union[UpdateFromSessionMsg.UpdateType, str]] = ...) -> None: ...
+
 class WriteOnOutputChannelMsg(_message.Message):
     __slots__ = ["messages"]
     class Messages(_message.Message):

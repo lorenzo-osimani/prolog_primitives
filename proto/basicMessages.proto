@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "it.unibo.tuprolog.primitives.messages";
+option java_outer_classname = "BasicMessages";
+
+package primitives;
+
+message SignatureMsg {
+  string name = 1;
+  uint32 arity = 2;
+}
+
+message ExecutionContextMsg {
+  StructMsg procedure = 1;
+  map<string, ArgumentMsg> substitutions = 3;
+  int64 startTime = 13;
+  int64 endTime = 14;
+  int64 remainingTime = 15;
+  int64 elapsedTime = 16;
+  int64 maxDuration = 17;
+}
+
+message StructMsg {
+  string functor = 1;
+  repeated ArgumentMsg arguments = 3;
+}
+
+message ArgumentMsg {
+  oneof argument {
+    StructMsg struct = 1;
+    string var = 2;
+    string constant = 3;
+  }
+}
+
+message TheoryMsg {
+  repeated StructMsg clauses = 1;
+}
+
+message LogicStacktraceMsg {
+  repeated StructMsg logicStackTrace = 1;
+}
+
+message CustomDataMsg {
+  map<string, string> persistentData = 1;
+  map<string, string> durableData = 2;
+  map<string, string> ephemeralData = 3;
+}
+
+message UnificatorMsg {
+  map<string, ArgumentMsg> unificator = 1;
+}
+
+message LibrariesMsg {
+  repeated LibraryMsg libraries = 1;
+}
+
+message LibraryMsg {
+  string alias = 1;
+  repeated SignatureMsg primitives = 2;
+  repeated SignatureMsg rulesSignatures = 3;
+  repeated StructMsg clauses = 4;
+  repeated SignatureMsg functionsSignatures = 5;
+  OperatorSetMsg operators = 6;
+}
+
+message FlagsMsg {
+  map<string, ArgumentMsg> flags = 1;
+}
+
+message OperatorMsg {
+  string functor = 1;
+  string specifier = 2;
+  int32 priority = 3;
+}
+
+message OperatorSetMsg {
+  repeated OperatorMsg operators = 1;
+}
+
+message ChannelsMsg {
+  repeated string channels = 1;
+}
+
+message EmptyMsg {}
+
+

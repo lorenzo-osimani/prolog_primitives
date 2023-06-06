@@ -46,10 +46,10 @@ class GenericPrimitive(Server.GenericPrimitiveService):
             msg: primitivesMsg.GeneratorMsg = queue.get()
             yield msg               
 
-def serve(primitive: DistributedElements.DistributedPrimitive, functor: str, arity: int, port: int = 8080, libraryName: str = ""):
+def serve(primitive: DistributedElements.DistributedPrimitiveWrapper, port: int = 8080, libraryName: str = ""):
     try:
         executor = futures.ThreadPoolExecutor()
-        service = GenericPrimitive(primitive, functor, arity, executor)
+        service = GenericPrimitive(primitive.primitive, primitive.functor, primitive.arity, executor)
         server = grpc.server(executor)
         Server.add_GenericPrimitiveServiceServicer_to_server(service, server)
         server.add_insecure_port('[::]:' + str(port))
@@ -60,4 +60,8 @@ def serve(primitive: DistributedElements.DistributedPrimitive, functor: str, ari
     except (Exception, KeyboardInterrupt, SystemExit) as inst:
         print(inst.with_traceback)
         DBManager.deletePrimitive(service.functor, service.arity, service.libraryName)
+        
+
+        
+        
 

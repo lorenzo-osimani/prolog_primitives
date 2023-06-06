@@ -90,7 +90,8 @@ setup(
         'pandas>=1.4.2',
         'grpio>=1.54.0',
         'grpcio-tools>=1.54.0pp',
-        'pymongo>=4.3.3'
+        'pymongo>=4.3.3',
+        'tensorflow>=2.12.0'
     ],  # Optional
     zip_safe = False,
     platforms = "Independant",
