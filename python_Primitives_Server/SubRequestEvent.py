@@ -15,6 +15,7 @@ class SubRequestEvent(ABC):
     def signalResponse(self, msg: primitiveMsg.SubResponseMsg):
         pass
     
+    @abstractmethod
     def awaitResult(self):
         pass
 
@@ -42,7 +43,7 @@ class ReadLineEvent(SubRequestEvent):
 class SingleSubSolveEvent(SubRequestEvent):
     id: str
     msg: primitiveMsg.GeneratorMsg
-    future: Future[primitiveMsg.SolutionMsg]
+    future: Future[primitiveMsg.ResponseMsg]
     
     def __init__(self, id: str, query: basicMsg.StructMsg, timeout: int):
         self.id = id
@@ -58,7 +59,7 @@ class SingleSubSolveEvent(SubRequestEvent):
     def signalResponse(self, msg: primitiveMsg.SubResponseMsg):
         self.future.set_result(msg.solution)
     
-    def awaitResult(self) -> primitiveMsg.SolutionMsg:
+    def awaitResult(self) -> primitiveMsg.ResponseMsg:
         return self.future.result()
     
 from enum import Enum

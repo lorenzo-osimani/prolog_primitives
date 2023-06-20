@@ -86,6 +86,7 @@ class InspectKbMsg(_message.Message):
         argument: str
         type: InspectKbMsg.FilterType
         def __init__(self, type: _Optional[_Union[InspectKbMsg.FilterType, str]] = ..., argument: _Optional[str] = ...) -> None: ...
+    BOTH: InspectKbMsg.KbType
     CONTAINS_FUNCTOR: InspectKbMsg.FilterType
     CONTAINS_TERM: InspectKbMsg.FilterType
     DYNAMIC: InspectKbMsg.KbType

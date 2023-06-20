@@ -37,6 +37,8 @@ class ServerSession:
             try:
                 nextValue: DistributedElements.DistributedResponse = next(self.stream)
             except:
+                e = sys.exc_info()
+                print(e)
                 nextValue: DistributedElements.DistributedResponse = self.request.replyFail()
             self.msgQueue.put(
                 primitivesMsg.GeneratorMsg(
@@ -65,8 +67,8 @@ class ServerSession:
             self.ongoingSubRequests.append(event)
             self.msgQueue.put(item = event.msg)
             result = event.awaitResult()
-            hasNext = result.hasNext
-            yield result
+            hasNext = result.solution.hasNext
+            yield result.solution
         
     def readLine(self, channelName: str) -> str:
         event: SubRequestEvent.ReadLineEvent = SubRequestEvent.ReadLineEvent(self.idGenerator(), channelName)

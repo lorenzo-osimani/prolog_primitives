@@ -1,5 +1,5 @@
 import grpc
-
+from grpc._server import _Context as Context
 from generatedProto import primitiveService_pb2_grpc as Server
 from generatedProto import primitiveService_pb2 as primitivesMsg
 from generatedProto import basicMessages_pb2 as basicMsg
@@ -26,7 +26,7 @@ class GenericPrimitive(Server.GenericPrimitiveService):
         signature = (self.functor, self.arity)
         return basicMsg.SignatureMsg(name=signature[0], arity=signature[1])
 
-    def callPrimitive(self, request_iterator, context):
+    def callPrimitive(self, request_iterator, context: Context):
         queue = Queue[primitivesMsg.GeneratorMsg]()
         def messageHandling():
             session: Session.ServerSession = None
@@ -41,14 +41,16 @@ class GenericPrimitive(Server.GenericPrimitiveService):
                     self.executor.submit(session.handleMessage, msg)
         
         self.executor.submit(messageHandling)
-            
-        while True:
+        
+        context.add_callback(lambda: queue.put(None))
+        while context.is_active():
             msg: primitivesMsg.GeneratorMsg = queue.get()
-            yield msg               
+            if(msg != None):
+                yield msg              
 
 def serve(primitive: DistributedElements.DistributedPrimitiveWrapper, port: int = 8080, libraryName: str = ""):
     try:
-        executor = futures.ThreadPoolExecutor()
+        executor = futures.ThreadPoolExecutor(128)
         service = GenericPrimitive(primitive.primitive, primitive.functor, primitive.arity, executor)
         server = grpc.server(executor)
         Server.add_GenericPrimitiveServiceServicer_to_server(service, server)

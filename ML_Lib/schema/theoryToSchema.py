@@ -3,7 +3,8 @@ from generatedProto import primitiveService_pb2 as primitiveMsg
 from generatedProto import basicMessages_pb2 as basicMsg
 from typing import Generator
 from python_Primitives_Server import Utils
-from . import Collections
+from .. import Collections
+from .schemaClass import Attribute, Schema, parseAttributeFromStruct
 
 class __TheoryToSchemaPrimitive(DistributedElements.DistributedPrimitive):
     
@@ -24,11 +25,9 @@ class __TheoryToSchemaPrimitive(DistributedElements.DistributedPrimitive):
                 if(i == None and len(attributes) == 0 ):
                     yield request.replyFail()
                 elif(i != None):
-                    fact = i.arguments[0].struct
-                    index = int(Utils.parseArgumentMsg(fact.arguments[0]))
-                    name = str(Utils.parseArgumentMsg(fact.arguments[1]))
-                    type = Collections.Attribute.parseTypeFromArgumentMsg(fact.arguments[2])
-                    attributes.insert(index, Collections.Attribute(name, type))
+                    fact = Utils.parseStructMsg(i.arguments[0].struct)
+                    index = int(fact.arguments[0])
+                    attributes.insert(index, parseAttributeFromStruct(fact))
                  
             targets = list()     
             targetFact = next(request.inspectKb(

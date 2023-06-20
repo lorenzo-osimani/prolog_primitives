@@ -89,9 +89,11 @@ setup(
         'scikit-learn>=1.0.2',
         'pandas>=1.4.2',
         'grpio>=1.54.0',
-        'grpcio-tools>=1.54.0pp',
+        'grpcio-tools>=1.54.0',
         'pymongo>=4.3.3',
-        'tensorflow>=2.12.0'
+        'tensorflow>=2.12.0',
+        'datasets>=2.12.0',
+        'tensorflow-transform>=1.13.0'
     ],  # Optional
     zip_safe = False,
     platforms = "Independant",
@@ -105,3 +107,4 @@ setup(
         'get_project_version': GetVersionCommand,
     },
 )
+

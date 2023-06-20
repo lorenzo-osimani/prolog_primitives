@@ -3,7 +3,8 @@ from generatedProto import primitiveService_pb2 as primitiveMsg
 from generatedProto import basicMessages_pb2 as basicMsg
 from typing import Generator
 from python_Primitives_Server import Utils
-from .Collections import SharedCollections, Schema, Attribute
+from ..Collections import SharedCollections
+from .schemaClass import Schema, Attribute, parseAttributeFromStruct
 
 class __SchemaPrimitive(DistributedElements.DistributedPrimitive):
     
@@ -46,20 +47,15 @@ class __SchemaPrimitive(DistributedElements.DistributedPrimitive):
             attributes = Utils.parseArgumentMsgList(attributes)
             attributesList = list[Attribute]()
             for attr in attributes:
-                attributesList.insert(int(attr.arguments[0]), 
-                                      Attribute(
-                                          str(attr.arguments[1]), 
-                                          Attribute.parseType(attr.arguments[2])
-                                          )
-                                      )
-            #parsing targets
+                attributesList.insert(int(attr.arguments[0]), parseAttributeFromStruct(attr))
+            #Parsing targets
             targets =  Utils.parseArgumentMsgList(targets)
             targetsList = list(map(str, targets))
             id = SharedCollections().addSchema(
                 Schema(str(Utils.parseArgumentMsg(schema_name)), attributesList, targetsList))
             yield request.replySuccess(substitutions={
                 schema_ref.var:  basicMsg.ArgumentMsg(constant=id)
-            })
+            }, hasNext=False)
         else:
             yield request.replyFail()
             

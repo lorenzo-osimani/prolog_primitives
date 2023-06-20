@@ -39,7 +39,7 @@ class DistributedRequest:
             sideEffects=sideEffects
         )
         
-    def replySuccess(self, substitutions = None,  sideEffects = None, hasNext = True):
+    def replySuccess(self, substitutions = None,  sideEffects: list[sideEffectsMsg.SideEffectMsg] = None, hasNext = True):
         return DistributedResponse(
             primitivesMsg.SolutionMsg(
                 query = self.query,
@@ -49,7 +49,7 @@ class DistributedRequest:
             sideEffects=sideEffects
         )
         
-    def replyFail(self, sideEffects: sideEffectsMsg.SideEffectMsg = None, hasNext = False):
+    def replyFail(self, sideEffects: list[sideEffectsMsg.SideEffectMsg] = None, hasNext = False):
         return DistributedResponse(
             primitivesMsg.SolutionMsg(
                 query = self.query, 
@@ -58,7 +58,7 @@ class DistributedRequest:
             sideEffects=sideEffects
         )
         
-    def replyError(self, error: errorMsg.ResolutionExceptionMsg,  sideEffects: sideEffectsMsg.SideEffectMsg = None, hasNext = False):
+    def replyError(self, error: primitivesMsg.ErrorMsg,  sideEffects: sideEffectsMsg.SideEffectMsg = None, hasNext = False):
         return DistributedResponse(
             primitivesMsg.SolutionMsg(
                 query = self.query,
@@ -68,7 +68,7 @@ class DistributedRequest:
             sideEffects=sideEffects
         )
         
-    def subSolve(self, query: basicMsg.StructMsg, timeout: int = int(math.log2(sys.maxsize * 2 + 2))) -> Generator[primitivesMsg.SolutionMsg, None, None]:
+    def subSolve(self, query: basicMsg.StructMsg, timeout: int = sys.maxsize) -> Generator[primitivesMsg.SolutionMsg, None, None]:
         return self.session.subSolve(query, timeout)
         
     def readLine(self, channelName: str) -> str:

@@ -75,4 +75,8 @@ def fromListToArgumentMsg(elements: list) -> basicMsg.ArgumentMsg:
         )
     return last_element
       
-    
+def stringsConverter(x):
+    if(type(x) is bytes):
+        return x.decode('utf-8')
+    else:
+        return str(x)
