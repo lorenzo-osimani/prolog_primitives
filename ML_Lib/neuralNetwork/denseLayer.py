@@ -18,10 +18,14 @@ class __DenseLayer(DistributedElements.DistributedPrimitive):
         if(not topology_in_ref.HasField('var') and not size.HasField('var') and
            not activation.HasField('var') and topology_out_ref.HasField('var')):
             topology: list = SharedCollections().getTopology(Utils.parseArgumentMsg(topology_in_ref))
+            
+            activation = str(Utils.parseArgumentMsg(activation))
+            if(activation == "identity"):
+                activation = None
 
             dense = tf.keras.layers.Dense(
                 units=int(Utils.parseArgumentMsg(size)),
-                activation=Utils.parseArgumentMsg(activation),
+                activation=activation,
                 name="dense_"+str(len(topology)))
             topology.append(dense)
             

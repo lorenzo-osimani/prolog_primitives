@@ -96,13 +96,16 @@ class Pipeline:
                 output[attr] = layer.inverter(output[attr])
         return Dataset.from_dict(output)
     
-    def computeFinalSchema(self):
+    def computeFinalSchema(self) -> Schema:
+        from ..schema.schemaClass import Attribute, Schema
         data = {}
         for attr in self.originalSchema.attributes:
             data[attr.name] = {
                 "dtype": attr.type,
                 "shape": tf.TensorShape([1,])
             }
+            
+        attributes = []
         for attr, layers in self.__layers.items():
             for layer in layers:
                 if(type(layer) == Dropper):
@@ -112,17 +115,18 @@ class Pipeline:
                         "dtype": layer.applier.dtype,
                         "shape": layer.applier.compute_output_shape(data[attr]["shape"])
                     }
-        return data
+            try:
+                if(data[attr]['shape'][1] > 1):
+                    for i in range(attr['shape'][1]):
+                        attributes.append(
+                            Attribute(str(attr)+"_"+str(i), tf.as_dtype(data[attr]['dtype']))
+                    )
+            except:
+                if(attr in data):
+                    attributes.append(
+                        Attribute(attr, tf.as_dtype(data[attr]['dtype']))
+                    )
         
-'''  
-pipeline = Pipeline("hghghgh")
-values = pipeline.apply({"hello": tf.constant([3]), "bye":  tf.constant(["3"])})
-print(values)
-
-pipeline = pipeline.append({"hello": Normalization, "bye": OneHotEncoder(["1", "2", "3"])})
-pipeline.adapt({"hello": [1,5,10], "bye": ["1", "1", "1"]})
-values = pipeline.apply({"hello": tf.constant([3]), "bye":  tf.constant(["3"])})
-print(values)
-
-print(pipeline.computeFinalSchema())
-'''
+        newTargets = list(set(data.keys()).intersection(self.originalSchema.targets))
+        
+        return Schema(self.originalSchema.name, attributes, newTargets)

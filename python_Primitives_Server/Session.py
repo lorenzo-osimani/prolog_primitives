@@ -39,6 +39,8 @@ class ServerSession:
             except:
                 e = sys.exc_info()
                 print(e)
+                import traceback
+                print(traceback.format_exc())
                 nextValue: DistributedElements.DistributedResponse = self.request.replyFail()
             self.msgQueue.put(
                 primitivesMsg.GeneratorMsg(

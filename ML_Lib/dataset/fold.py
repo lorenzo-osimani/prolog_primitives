@@ -15,16 +15,18 @@ class __FoldPrimitive(DistributedElements.DistributedPrimitive):
         val_ref = request.arguments[3]
         if(not dataset_ref.HasField("var") and not k.HasField("var") and 
            train_ref.HasField("var") and val_ref.HasField("var")):
-            
-            dataset = SharedCollections().getDataset(str(Utils.parseArgumentMsg(dataset_ref)))
+            datasetId = str(Utils.parseArgumentMsg(dataset_ref))
+            schemaId = SharedCollections().getSchemaIdFromDataset(datasetId)
+            dataset = SharedCollections().getDataset(datasetId)
             k = int(Utils.parseArgumentMsg(k))
             for kfold, (train, test) in enumerate(KFold(n_splits=k, 
                                 shuffle=True).split(dataset)):
                 train_ds = dataset[train]   
                 val_ds = dataset[test]
                 
-                train_id = SharedCollections().addDataset(train_ds)
-                val_id = SharedCollections().addDataset(val_ds)
+                
+                train_id = SharedCollections().addDataset(train_ds, schemaId)
+                val_id = SharedCollections().addDataset(val_ds, schemaId)
             
                 yield request.replySuccess(substitutions={
                     train_ref.var: basicMsg.ArgumentMsg(constant=train_id),

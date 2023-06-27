@@ -20,7 +20,7 @@ class __Normalize(DistributedElements.DistributedPrimitive):
                 attributes = listOfAttr
             else:
                 attributes = [Utils.parseArgumentMsg(attributes)]
-                
+            
             id = SharedCollections().addPipeline(transf.append(dict.fromkeys(attributes, [Normalization()])))
             yield request.replySuccess(substitutions={
                 transf_out_ref.var: basicMsg.ArgumentMsg(constant=id)

@@ -23,24 +23,8 @@ class __SchemaTrasformation(DistributedElements.DistributedPrimitive):
         elif(schema_ref.HasField('var') and not transf_ref.HasField('var')):
             transformation_id = Utils.parseArgumentMsg(transf_ref)
             transformation: Pipeline = SharedCollections().getPipeline(transformation_id)
-            schema = SharedCollections().getSchema(transformation.originalSchemaId)
             
-            inputs = transformation.computeFinalSchema()
-                
-            attributes = []
-            for name, attr in inputs.items():
-                try:
-                    if(attr['shape'][1] > 1):
-                        for i in range(attr['shape'][1]):
-                            attributes.append(
-                                Attribute(str(name)+"_"+str(i), tf.as_dtype(attr['dtype']))
-                            )
-                except:
-                    attributes.append(
-                        Attribute(name, tf.as_dtype(attr['dtype']))
-                    )
-            
-            id = SharedCollections().addSchema(Schema(schema.name, attributes, schema.targets))
+            id = SharedCollections().addSchema(transformation.computeFinalSchema())
             yield request.replySuccess(substitutions = {
                 schema_ref.var: basicMsg.ArgumentMsg(constant=id)
             }, hasNext=False)            

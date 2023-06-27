@@ -17,6 +17,10 @@ from .neuralNetwork.inputLayer import inputLayerPrimitive
 from .neuralNetwork.denseLayer import denseLayerPrimitive
 from .neuralNetwork.outputLayer import outputLayerPrimitive
 from .neuralNetwork.neuralNetwork import neuralNetworkPrimitive
+from .predictors.train import trainPrimitive
+from .predictors.predict import predictPrimitive
+from .predictors.classify import classifyPrimitive
+from .predictors.score import msePrimitive
 from python_Primitives_Server import PrimitiveWrapper, DistributedElements
 import threading
 
@@ -29,7 +33,8 @@ primitives = [schemaPrimitive, theoryToSchemaPrimitive,
               theoryFromDatasetPrimitive, schemaTrasformation,
               normalizePrimitive, one_hot_encodePrimitive, dropPrimitive,
               fitPrimitive, transformPrimitive, inputLayerPrimitive,
-              denseLayerPrimitive, outputLayerPrimitive, neuralNetworkPrimitive]
+              denseLayerPrimitive, outputLayerPrimitive, neuralNetworkPrimitive,
+              trainPrimitive, predictPrimitive, classifyPrimitive, msePrimitive]
 
 threads: list[threading.Thread] = []
 port = 8080

@@ -18,9 +18,9 @@ class __Transform(DistributedElements.DistributedPrimitive):
             
             if(not dataset_in_ref.HasField("var") and dataset_out_ref.HasField("var")):
                 dataset_in: Dataset = SharedCollections().getDataset(Utils.parseArgumentMsg(dataset_in_ref))
+                schemaId = SharedCollections().addSchema(transf.computeFinalSchema())
                 dataset_out = transf.apply(dataset_in)
-                
-                id = SharedCollections().addDataset(dataset_out)
+                id = SharedCollections().addDataset(dataset_out, schemaId)
 
                 yield request.replySuccess(substitutions={
                     dataset_out_ref.var: basicMsg.ArgumentMsg(constant=id)
@@ -28,7 +28,7 @@ class __Transform(DistributedElements.DistributedPrimitive):
             elif(dataset_in_ref.HasField("var") and not dataset_out_ref.HasField("var")):
                 dataset_out: Dataset = SharedCollections().getDataset(Utils.parseArgumentMsg(dataset_out_ref))
                 dataset_in: Dataset = transf.invert(dataset_out)
-                id = SharedCollections().addDataset(dataset_in)
+                id = SharedCollections().addDataset(dataset_in, transf.originalSchema)
 
                 yield request.replySuccess(substitutions={
                     dataset_in_ref.var: basicMsg.ArgumentMsg(constant=id)

@@ -14,9 +14,9 @@ class __RandomSplitPrimitive(DistributedElements.DistributedPrimitive):
         val_ref = request.arguments[3]
         if(not dataset_ref.HasField("var") and not ratio.HasField("var") and 
            train_ref.HasField("var") and val_ref.HasField("var")):
-            
-            
-            dataset: Dataset = SharedCollections().getDataset(str(Utils.parseArgumentMsg(dataset_ref)))
+            datasetId = str(Utils.parseArgumentMsg(dataset_ref))
+            schemaId = SharedCollections().getSchemaIdFromDataset(datasetId)
+            dataset: Dataset = SharedCollections().getDataset(datasetId)
             ratio = float(Utils.parseArgumentMsg(ratio))
             train_size = int(ratio * len(list(dataset)))
         
@@ -24,8 +24,8 @@ class __RandomSplitPrimitive(DistributedElements.DistributedPrimitive):
             train_ds = shuffled[:train_size]
             val_ds = dataset[train_size:]
             
-            train_id = SharedCollections().addDataset(train_ds)
-            val_id = SharedCollections().addDataset(val_ds)
+            train_id = SharedCollections().addDataset(train_ds, schemaId)
+            val_id = SharedCollections().addDataset(val_ds, schemaId)
             
             yield request.replySuccess(substitutions={
                 train_ref.var: basicMsg.ArgumentMsg(constant=train_id),

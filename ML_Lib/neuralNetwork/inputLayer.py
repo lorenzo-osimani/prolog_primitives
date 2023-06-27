@@ -16,8 +16,7 @@ class __InputLayer(DistributedElements.DistributedPrimitive):
         
         if(not size.HasField('var') and topology_ref.HasField('var')):
             size = int(Utils.parseArgumentMsg(size))
-            input = tf.keras.layers.Input(shape=(size,))
-            id = SharedCollections().addTopology([tf.keras.layers.Input(shape=(size,), name="input")])
+            id = SharedCollections().addTopology([tf.keras.Input(shape=(size,), name="input")])
             yield request.replySuccess(substitutions={
                 topology_ref.var: basicMsg.ArgumentMsg(constant=id)
                 }, hasNext=False)

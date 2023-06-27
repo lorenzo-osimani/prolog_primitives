@@ -2,6 +2,15 @@ from .schema.schemaClass import Schema
 import tensorflow as tf
 from datasets import Dataset
 
+class DataSchemaTuple:
+    
+    datasetId: str
+    schemaId: str
+    
+    def __init__(self, schemaId, datasetId) -> None:
+        self.schemaId = schemaId
+        self.datasetId = datasetId
+
 class SharedCollections(object):
 
     __schemas: dict = dict()
@@ -9,6 +18,7 @@ class SharedCollections(object):
     __pipeline: dict = dict()
     __topology: dict = dict()
     __model: dict = dict()
+    __dataSchemaTuples: list[DataSchemaTuple] = []
 
     def __new__(cls):
         if not hasattr(cls, 'instance'):
@@ -23,10 +33,17 @@ class SharedCollections(object):
     def getSchema(self, ref: str) -> Schema:
         return self.__schemas.get(ref, None)
     
-    def addDataset(self, dataset: Dataset) -> str:
+    def addDataset(self, dataset: Dataset, schemaId: str) -> str:
         id = self.idGenerator()
         self.__dataset[id] = dataset
+        self.__dataSchemaTuples.append(DataSchemaTuple(schemaId, id))
         return id
+    
+    def getSchemaIdFromDataset(self, datasetId: str):
+        return list(filter(lambda x: x.datasetId == datasetId , self.__dataSchemaTuples)).pop().schemaId
+    
+    def getDatasetIdFromSchema(self, schemaId: str):
+        return list(filter(lambda x: x.schemaId == schemaId , self.__dataSchemaTuples)).pop().datasetId
     
     def getDataset(self, ref: str) -> Dataset:
         return self.__dataset.get(ref, None)

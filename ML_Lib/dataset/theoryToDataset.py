@@ -5,7 +5,7 @@ from generatedProto import errorsMessages_pb2 as errorMsg
 from typing import Generator
 from python_Primitives_Server import Utils
 from ..Collections import SharedCollections
-
+from datasets import Dataset
 
 class __TheoryToDatasetPrimitive(DistributedElements.DistributedPrimitive):
     
@@ -13,10 +13,10 @@ class __TheoryToDatasetPrimitive(DistributedElements.DistributedPrimitive):
         schema_name = request.arguments[0]
         dataset_ref = request.arguments[1]
         if(not schema_name.HasField("var") and dataset_ref.HasField("var")):
-            id = str(Utils.parseArgumentMsg(next(request.subSolve(
+            schemaId = str(Utils.parseArgumentMsg(next(request.subSolve(
                 query = basicMsg.StructMsg(functor="theoryToSchema", arguments=[basicMsg.ArgumentMsg(var="X")]))
                  ).substitutions["X"]))         
-            schema = SharedCollections().getSchema(id)
+            schema = SharedCollections().getSchema(schemaId)
             
             data = dict(list(map(lambda x: (x.name,[]), schema.attributes)))
             for i in request.inspectKb(
@@ -38,11 +38,10 @@ class __TheoryToDatasetPrimitive(DistributedElements.DistributedPrimitive):
                         else:
                             data[j[0].name].append(value)
             
-            from datasets import Dataset
             dataset = Dataset.from_dict(data).with_format("tf")
-            id = SharedCollections().addDataset(dataset)
+            datasetId = SharedCollections().addDataset(dataset, schemaId)
             yield request.replySuccess(substitutions={
-                dataset_ref.var: basicMsg.ArgumentMsg(constant=id)
+                dataset_ref.var: basicMsg.ArgumentMsg(constant=datasetId)
                 }, hasNext=False)
         else:
             yield request.replyFail()
