@@ -142,4 +142,4 @@ dmypy.json
 .pyre/
 
 # GeneratedProto
-.prolog_primitives/generatedProto/
+/prolog_primitives/generatedProto/

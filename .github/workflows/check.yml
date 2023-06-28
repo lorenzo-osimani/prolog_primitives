@@ -44,6 +44,7 @@ jobs:
 
       - name: Generate .proto files
         run: |
-          mkdir -p prolog_primitives/generatedProto
-          python -m grpc_tools.protoc -I prolog_primitives/proto --python_out=prolog_primitives/generatedProto --pyi_out=prolog_primitives/generatedProto --grpc_python_out=prolog_primitives/generatedProto prolog_primitives/proto/*.proto
+          mkdir prolog_primitives/generatedProto
+          cd prolog_primitives/generatedProto
+          python -m grpc_tools.protoc -I ../proto --python_out=. --pyi_out=. --grpc_python_out=. ../proto/*.proto
           sed -i '' 's/^\(import.*pb2\)/from . \1/g' prolog_primitives/generatedProto/*.py
