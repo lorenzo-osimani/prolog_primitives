@@ -51,3 +51,4 @@ jobs:
             sed -i '' 's/^\(import.*pb2\)/from . \1/g' *.py
           else
             sed -i 's/^\(import.*pb2\)/from . \1/g' *.py
+          fi
