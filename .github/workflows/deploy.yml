@@ -46,7 +46,10 @@ jobs:
           mkdir prolog_primitives/generatedProto
           cd prolog_primitives/generatedProto
           python -m grpc_tools.protoc -I ../proto --python_out=. --pyi_out=. --grpc_python_out=. ../proto/*.proto
-          sed -i 's/^\(import.*pb2\)/from . \1/g' *.py
+          if [ "$RUNNER_OS" == "macOS" ]; then
+            sed -i '' 's/^\(import.*pb2\)/from . \1/g' *.py
+          else
+            sed -i 's/^\(import.*pb2\)/from . \1/g' *.py
 
       - name: Change default logging level
         run: sed -i -e 's/DEBUG/WARN/g' prolog_primitives/__init__.py
