@@ -43,6 +43,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Generate .proto files
+        shell: bash
         run: |
           mkdir prolog_primitives/generatedProto
           cd prolog_primitives/generatedProto
