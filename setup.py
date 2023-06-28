@@ -60,13 +60,13 @@ class GetVersionCommand(distutils.cmd.Command):
         print(version)
 
 setup(
-    name='python_Primitives_Server',  # Required
+    name='prolog_primitives',  # Required
     version=version,
     description='description here',
     license='Apache 2.0 License',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/aequitas-aod/python_Primitives_Server',
+    url='https://github.com/aequitas-aod/prolog_primitives',
     author='Lorenzo Osimani',
     author_email='lorenzo.osimani@studio.unibo.it',
     classifiers=[
@@ -92,16 +92,15 @@ setup(
         'grpcio-tools>=1.54.0',
         'pymongo>=4.3.3',
         'tensorflow>=2.12.0',
-        'datasets>=2.12.0',
-        'tensorflow-transform>=1.13.0'
+        'datasets>=2.12.0'
     ],  # Optional
     zip_safe = False,
     platforms = "Independant",
     project_urls={  # Optional
-        'Bug Reports': 'https://github.com/aequitas-aod/python_Primitives_Server/issues',
+        'Bug Reports': 'https://github.com/aequitas-aod/prolog_primitives/issues',
         # 'Funding': 'https://donate.pypi.org',
         # 'Say Thanks!': 'http://saythanks.io/to/example',
-        'Source': 'https://github.com/aequitas-aod/python_Primitives_Server',
+        'Source': 'https://github.com/aequitas-aod/prolog_primitives',
     },
     cmdclass={
         'get_project_version': GetVersionCommand,

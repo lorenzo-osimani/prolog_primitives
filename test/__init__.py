@@ -2,8 +2,8 @@ import sys
 sys.path.append('../generatedProto')
 
 import unittest
-from python_Primitives_Server.PrimitiveWrapper import serve
-from python_Primitives_Server import DistributedElements
+from prolog_primitives.basic.PrimitiveWrapper import serve
+from prolog_primitives.basic import DistributedElements
 from generatedProto import basicMessages_pb2 as basicMsg
 from typing import Generator
 

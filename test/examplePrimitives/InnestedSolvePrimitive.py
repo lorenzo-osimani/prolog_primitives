@@ -1,6 +1,6 @@
 import logging
-from python_Primitives_Server import serve
-from python_Primitives_Server import DistributedElements
+from prolog_primitives.basic import serve
+from prolog_primitives.basic import DistributedElements
 from typing import Generator
 
 class InnestedPrimitive(DistributedElements.DistributedPrimitive):

@@ -4,7 +4,7 @@ A simple template of a Python project, with a rigid file structure, and predispo
 
 ## Relevant features
 
-- All your project code into a single main package (`python_Primitives_Server/`)
+- All your project code into a single main package (`prolog_primitives/`)
 - All your project tests into a single test package (`test/`)
 - Unit testing support via [`unittest`](https://docs.python.org/3/library/unittest.html)
 - Automatic testing on all branches via GitHub Actions
@@ -22,7 +22,7 @@ A simple template of a Python project, with a rigid file structure, and predispo
 Overview:
 ```bash
 <root directory>
-├── python_Primitives_Server/             # main package (should be named after your project)
+├── prolog_primitives/             # main package (should be named after your project)
 │   ├── __init__.py         # python package marker
 │   └── __main__.py         # application entry point
 ├── test/                   # test package (should contain unit tests)
@@ -44,19 +44,19 @@ Overview:
 
 ## TODO-list for template usage
 
-1. Use this template to create a new GitHub repository, say `python_Primitives_Server`
+1. Use this template to create a new GitHub repository, say `prolog_primitives`
     - this name will also be used to identify the package on PyPi
         + so, we suggest choosing a name which has not been used on PyPi, yet
         + we also suggest choosing a name which is a valid Python package name (i.e. `using_snake_case`)
 
-2. Clone the `python_Primitives_Server` repository
+2. Clone the `prolog_primitives` repository
 
-3. Open a shell into your local `python_Primitives_Server` directory and run 
+3. Open a shell into your local `prolog_primitives` directory and run 
     ```bash
-    ./rename-template.sh python_Primitives_Server
+    ./rename-template.sh prolog_primitives
     ``` 
     
-    This will coherently rename the template's project name with the one chosen by you (i.e. `python_Primitives_Server`, in this example)
+    This will coherently rename the template's project name with the one chosen by you (i.e. `prolog_primitives`, in this example)
 
 4. Commit & push
 
@@ -74,15 +74,15 @@ Overview:
     - `PYPI_USERNAME` (resp. `PYPI_PASSWORD`) for your username (resp. password)
     - this may require you to register on PyPi first
 
-11. Put your main (resp. test) code in `python_Primitives_Server/` (resp. `test/`)
+11. Put your main (resp. test) code in `prolog_primitives/` (resp. `test/`)
 
 ## How to do stuff
 
 ### Run your code as an application
 
-This will execute the file `python_Primitives_Server/__main__.py`:
+This will execute the file `prolog_primitives/__main__.py`:
 ```bash
-python -m python_Primitives_Server 
+python -m prolog_primitives 
 ```
 
 ### Run unit tests
@@ -104,7 +104,7 @@ pip install -r requirements.txt
 
 > This paragraph is more understandable if the reader has some background about [GitFlow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
 
-GitHub actions automatically release a new version of `python_Primitives_Server` on PyPi whenever commits are pushed on either the `main`/`master` or `develop` branches, as well as when new tags are pushed.
+GitHub actions automatically release a new version of `prolog_primitives` on PyPi whenever commits are pushed on either the `main`/`master` or `develop` branches, as well as when new tags are pushed.
 
 Tags are assumed to consist of [semantic versioning](https://semver.org/) strings of the form `Major.Minor.Patch` where `Major`, `Minor`, and `Patch` are non-negative integers.
 
