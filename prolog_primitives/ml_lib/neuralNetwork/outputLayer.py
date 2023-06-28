@@ -1,7 +1,5 @@
 from prolog_primitives.basic import DistributedElements
-from generatedProto import primitiveService_pb2 as primitiveMsg
-from generatedProto import basicMessages_pb2 as basicMsg
-from generatedProto import errorsMessages_pb2 as errorMsg
+from prolog_primitives.generatedProto import basicMessages_pb2 as basicMsg
 from typing import Generator
 from prolog_primitives.basic import Utils
 from ..Collections import SharedCollections

@@ -1,5 +1,4 @@
 from .schema.schemaClass import Schema
-import tensorflow as tf
 from datasets import Dataset
 
 class DataSchemaTuple:

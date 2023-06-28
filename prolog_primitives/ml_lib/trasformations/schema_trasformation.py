@@ -1,11 +1,10 @@
 from prolog_primitives.basic import DistributedElements
-from generatedProto import basicMessages_pb2 as basicMsg
+from prolog_primitives.generatedProto import basicMessages_pb2 as basicMsg
 from typing import Generator
 from prolog_primitives.basic import Utils
 from ..Collections import SharedCollections
 import tensorflow as tf
 from .transformationClass import Pipeline
-from ..schema.schemaClass import Attribute, Schema
 
 class __SchemaTrasformation(DistributedElements.DistributedPrimitive):
     

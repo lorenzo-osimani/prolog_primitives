@@ -2,8 +2,8 @@ import sys
 sys.path.append('../generatedProto')
 from abc import ABC, abstractmethod
 
-from generatedProto import primitiveService_pb2 as primitiveMsg
-from generatedProto import basicMessages_pb2 as basicMsg
+from prolog_primitives.generatedProto import primitiveService_pb2 as primitiveMsg
+from prolog_primitives.generatedProto import basicMessages_pb2 as basicMsg
 from concurrent.futures import Future
 
 class SubRequestEvent(ABC):

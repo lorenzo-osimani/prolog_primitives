@@ -1,4 +1,4 @@
-from generatedProto import basicMessages_pb2 as basicMsg
+from prolog_primitives.generatedProto import basicMessages_pb2 as basicMsg
 from prolog_primitives.basic import Utils
 import pandas as pd
 import tensorflow as tf

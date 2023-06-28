@@ -2,10 +2,10 @@ import sys
 
 from abc import ABC, abstractmethod
 from typing import Generator
-from generatedProto import sideEffectsMessages_pb2 as sideEffectsMsg
-from generatedProto import primitiveService_pb2 as primitivesMsg
-from generatedProto import basicMessages_pb2 as basicMsg
-from generatedProto import errorsMessages_pb2 as errorMsg
+from prolog_primitives.generatedProto import sideEffectsMessages_pb2 as sideEffectsMsg
+from prolog_primitives.generatedProto import primitiveService_pb2 as primitivesMsg
+from prolog_primitives.generatedProto import basicMessages_pb2 as basicMsg
+from prolog_primitives.generatedProto import errorsMessages_pb2 as errorMsg
 import math
 
 class DistributedRequest:

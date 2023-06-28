@@ -140,3 +140,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# GeneratedProto
+.prolog_primitives/generatedProto/

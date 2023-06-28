@@ -3,8 +3,8 @@ sys.path.append('../generatedProto')
 
 import random
 import string
-from generatedProto import primitiveService_pb2 as primitivesMsg
-from generatedProto import basicMessages_pb2 as basicMsg
+from prolog_primitives.generatedProto import primitiveService_pb2 as primitivesMsg
+from prolog_primitives.generatedProto import basicMessages_pb2 as basicMsg
 from . import SubRequestEvent
 from . import DistributedElements
 from typing import Generator

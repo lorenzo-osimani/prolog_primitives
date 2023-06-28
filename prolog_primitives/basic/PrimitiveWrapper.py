@@ -1,8 +1,8 @@
 import grpc
 from grpc._server import _Context as Context
-from generatedProto import primitiveService_pb2_grpc as Server
-from generatedProto import primitiveService_pb2 as primitivesMsg
-from generatedProto import basicMessages_pb2 as basicMsg
+from prolog_primitives.generatedProto import primitiveService_pb2_grpc as Server
+from prolog_primitives.generatedProto import primitiveService_pb2 as primitivesMsg
+from prolog_primitives.generatedProto import basicMessages_pb2 as basicMsg
 from . import DistributedElements
 from . import Session
 from queue import Queue
@@ -49,7 +49,7 @@ class GenericPrimitive(Server.GenericPrimitiveService):
                 yield msg              
 
 def serve(primitive: DistributedElements.DistributedPrimitiveWrapper, port: int = 8080, libraryName: str = ""):
-    executor = futures.ThreadPoolExecutor(128)
+    executor = futures.ThreadPoolExecutor(64)
     service = GenericPrimitive(primitive.primitive, primitive.functor, primitive.arity, executor)
     server = grpc.server(executor)
     Server.add_GenericPrimitiveServiceServicer_to_server(service, server)

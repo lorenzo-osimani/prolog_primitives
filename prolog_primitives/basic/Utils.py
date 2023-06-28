@@ -1,5 +1,5 @@
 
-from generatedProto import basicMessages_pb2 as basicMsg
+from prolog_primitives.generatedProto import basicMessages_pb2 as basicMsg
 
 class Struct:
     functor: str

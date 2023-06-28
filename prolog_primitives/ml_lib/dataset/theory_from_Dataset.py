@@ -1,6 +1,6 @@
 from prolog_primitives.basic import DistributedElements
-from generatedProto.sideEffectsMessages_pb2 import SetClausesOfKBMsg, SideEffectMsg
-import generatedProto.basicMessages_pb2 as basicMsg
+from prolog_primitives.generatedProto.sideEffectsMessages_pb2 import SetClausesOfKBMsg, SideEffectMsg
+import prolog_primitives.generatedProto.basicMessages_pb2 as basicMsg
 from typing import Generator
 from prolog_primitives.basic import Utils
 from ..Collections import SharedCollections
