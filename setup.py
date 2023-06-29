@@ -35,7 +35,7 @@ def get_version_from_git():
         if version_file.exists():
             return version_file.read_text().strip()
         else:
-            return '0.1.0'
+            return '0.2.0'
 
 
 version = get_version_from_git()
