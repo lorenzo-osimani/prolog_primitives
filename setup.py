@@ -66,7 +66,7 @@ setup(
     license='Apache 2.0 License',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/aequitas-aod/prolog_primitives',
+    url='https://github.com/lorenzo-osimani/prolog_primitives/',
     author='Lorenzo Osimani',
     author_email='lorenzo.osimani@studio.unibo.it',
     classifiers=[
@@ -97,10 +97,10 @@ setup(
     zip_safe = False,
     platforms = "Independant",
     project_urls={  # Optional
-        'Bug Reports': 'https://github.com/aequitas-aod/prolog_primitives/issues',
+        'Bug Reports': 'https://github.com/lorenzo-osimani/prolog_primitives/issues',
         # 'Funding': 'https://donate.pypi.org',
         # 'Say Thanks!': 'http://saythanks.io/to/example',
-        'Source': 'https://github.com/aequitas-aod/prolog_primitives',
+        'Source': 'https://github.com/lorenzo-osimani/prolog_primitives/',
     },
     cmdclass={
         'get_project_version': GetVersionCommand,
