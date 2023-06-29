@@ -88,7 +88,7 @@ setup(
     install_requires=[
         'scikit-learn>=1.0.2',
         'pandas>=1.4.2',
-        'grpio>=1.54.0',
+        'grpcio>=1.54.0',
         'grpcio-tools>=1.54.0',
         'pymongo>=4.3.3',
         'tensorflow>=2.12.0',
