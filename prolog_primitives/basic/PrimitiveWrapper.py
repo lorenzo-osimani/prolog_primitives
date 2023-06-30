@@ -48,14 +48,15 @@ class GenericPrimitive(Server.GenericPrimitiveService):
             if(msg != None):
                 yield msg              
 
-def serve(primitive: DistributedElements.DistributedPrimitiveWrapper, port: int = 8080, libraryName: str = ""):
+def serve(primitive: DistributedElements.DistributedPrimitiveWrapper, port: int = 8080, libraryName: str = "", withDB: bool = False):
     executor = futures.ThreadPoolExecutor(64)
     service = GenericPrimitive(primitive.primitive, primitive.functor, primitive.arity, executor)
     server = grpc.server(executor)
     Server.add_GenericPrimitiveServiceServicer_to_server(service, server)
     server.add_insecure_port('[::]:' + str(port))
     server.start()
-    DBManager.addPrimitive(service.functor, service.arity, libraryName, "localhost", port)
+    if(withDB):
+        DBManager.addPrimitive(service.functor, service.arity, libraryName, "localhost", port)
     print("Server started, listening on " + str(port))
     return server
         
