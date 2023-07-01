@@ -3,7 +3,7 @@ from prolog_primitives.generatedProto.sideEffectsMessages_pb2 import SetClausesO
 import prolog_primitives.generatedProto.basicMessages_pb2 as basicMsg
 from typing import Generator
 from prolog_primitives.basic import Utils
-from ..Collections import SharedCollections
+from ..collections import SharedCollections
 import tensorflow as tf
 
 def wrapInClause(struct: basicMsg.StructMsg):

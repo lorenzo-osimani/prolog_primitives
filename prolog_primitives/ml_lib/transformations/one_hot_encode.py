@@ -2,7 +2,7 @@ from prolog_primitives.basic import DistributedElements
 from prolog_primitives.generatedProto import basicMessages_pb2 as basicMsg
 from typing import Generator
 from prolog_primitives.basic import Utils
-from ..Collections import SharedCollections
+from ..collections import SharedCollections
 from ..schema.schemaClass import Schema
 from .transformationClass import OneHotEncoder, Pipeline
 

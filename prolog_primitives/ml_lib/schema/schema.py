@@ -2,7 +2,7 @@ from prolog_primitives.basic import DistributedElements
 from prolog_primitives.generatedProto import basicMessages_pb2 as basicMsg
 from typing import Generator
 from prolog_primitives.basic import Utils
-from ..Collections import SharedCollections
+from ..collections import SharedCollections
 from .schemaClass import Schema, Attribute, parseAttributeFromStruct
 
 class __SchemaPrimitive(DistributedElements.DistributedPrimitive):

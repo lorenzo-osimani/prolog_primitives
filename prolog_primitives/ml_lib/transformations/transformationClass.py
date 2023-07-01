@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 import tensorflow as tf
-from ..Collections import SharedCollections
+from ..collections import SharedCollections
 from ..schema.schemaClass import Schema
 from datasets import Dataset
 

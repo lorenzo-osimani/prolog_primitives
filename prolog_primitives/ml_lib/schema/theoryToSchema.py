@@ -3,7 +3,7 @@ from prolog_primitives.generatedProto import primitiveService_pb2 as primitiveMs
 from prolog_primitives.generatedProto import basicMessages_pb2 as basicMsg
 from typing import Generator
 from prolog_primitives.basic import Utils
-from .. import Collections
+from .. import collections
 from .schemaClass import parseAttributeFromStruct
 
 class __TheoryToSchemaPrimitive(DistributedElements.DistributedPrimitive):
@@ -38,9 +38,9 @@ class __TheoryToSchemaPrimitive(DistributedElements.DistributedPrimitive):
             else:
                 targets = Utils.parseArgumentMsgList(targetFact.arguments[0].struct.arguments[0])
             substitutions = {
-                arg0.var: basicMsg.ArgumentMsg(constant=Collections
+                arg0.var: basicMsg.ArgumentMsg(constant=collections
                                                .SharedCollections()
-                                               .addSchema(Collections.Schema(schema_name, attributes, targets))) 
+                                               .addSchema(collections.Schema(schema_name, attributes, targets))) 
                 }
             yield request.replySuccess(substitutions, hasNext=False)
         else:

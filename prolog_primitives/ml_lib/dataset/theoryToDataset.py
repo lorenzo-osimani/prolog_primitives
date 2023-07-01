@@ -4,7 +4,7 @@ from prolog_primitives.generatedProto import basicMessages_pb2 as basicMsg
 from prolog_primitives.generatedProto import errorsMessages_pb2 as errorMsg
 from typing import Generator
 from prolog_primitives.basic import Utils
-from ..Collections import SharedCollections
+from ..collections import SharedCollections
 from datasets import Dataset
 
 class __TheoryToDatasetPrimitive(DistributedElements.DistributedPrimitive):
