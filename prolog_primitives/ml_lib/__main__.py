@@ -1,3 +1,3 @@
-import launcher
+from . import launcher
 
 launcher.main()
