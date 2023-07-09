@@ -1,10 +1,8 @@
 from prolog_primitives.basic import DistributedElements
-from prolog_primitives.generatedProto import basicMessages_pb2 as basicMsg
 from typing import Generator
 from prolog_primitives.basic import Utils
 from ..collections import SharedCollections
 from sklearn.model_selection import KFold
-import numpy as np
 
 class __FoldPrimitive(DistributedElements.DistributedPrimitive):
     

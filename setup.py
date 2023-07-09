@@ -22,7 +22,6 @@ def format_git_describe_version(version):
     else:
         return version
 
-
 def get_version_from_git():
     try:
         process = subprocess.run(["git", "describe", "--tags"], cwd=str(here), check=True, capture_output=True)
@@ -39,9 +38,7 @@ def get_version_from_git():
 
 version = get_version_from_git()
 
-
 print(f"Detected version {version} from git describe")
-
 
 class GetVersionCommand(distutils.cmd.Command):
     """A custom command to get the current project version inferred from git describe."""
