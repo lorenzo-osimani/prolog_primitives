@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/lorenzo-osimani/prolog_primitives/compare/1.0.0...1.0.1) (2023-07-09)
+
+
+### Bug Fixes
+
+* testing commits messages for deploy ([bdbfbff](https://github.com/lorenzo-osimani/prolog_primitives/commit/bdbfbff9adf2edcff059ca563633c7bfcb8b8e77))
+
 ## 1.0.0 (2023-07-02)
 
 
