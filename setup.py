@@ -81,20 +81,18 @@ class GenerateProtoCommand(distutils.cmd.Command):
                 "--grpc_python_out=prolog_primitives/generatedProto prolog_primitives/proto/*.proto"
             , text=True, check=True, shell=True)
         
-        if(platform.system() == "Windows"):
-            import glob
-            import re
-            protoFiles = glob.glob('prolog_primitives\generatedProto\*.py',)
-            for protoFile in protoFiles:
-                with open (protoFile, 'r' ) as f:
-                    content = f.read()
-                    content_new = re.sub('(^import.*pb2)', r'from . \1', content, flags = re.M)
-                with open(protoFile, 'w') as file:
-                    file.write(content_new)
-            subprocess.run("type nul > prolog_primitives\generatedProto\__init__.py", text=True, check=True, shell=True)
-        else:
-             subprocess.run("sed -i '' 's/^\(import.*pb2\)/from . \1/g' prolog_primitives\generatedProto\*.py",
-                            text=True, check=True, shell=True)
+        
+        import glob
+        import re
+        protoFiles = glob.glob('prolog_primitives\generatedProto\*.py',)
+        for protoFile in protoFiles:
+            with open(protoFile, 'r' ) as f:
+                content = f.read()
+                content_new = re.sub('(^import.*pb2)', r'from . \1', content, flags = re.M)
+            with open(protoFile, 'w') as file:
+                file.write(content_new)
+        with open("prolog_primitives\generatedProto\__init__.py", "w") as f:
+            f.close()
             
 setup(
     name='prolog_primitives',  # Required
