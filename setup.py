@@ -58,6 +58,8 @@ class GetVersionCommand(distutils.cmd.Command):
 
 class GenerateProtoCommand(distutils.cmd.Command):
     description = 'generate the files from .proto'
+    protoPath = "prolog_primitives/proto"
+    generatedPath = "prolog_primitives/generatedProto"
     user_options = []
 
     def initialize_options(self):
@@ -68,26 +70,31 @@ class GenerateProtoCommand(distutils.cmd.Command):
     
     def run(self):
         import os
-        if not os.path.exists("prolog_primitives/generatedProto"):
-            os.mkdir("prolog_primitives/generatedProto")
+        if os.path.exists(self.generatedPath):
+            import shutil
+            shutil.rmtree(self.generatedPath)
+        os.mkdir(self.generatedPath)
+        
         subprocess.run(
-            "python -m grpc_tools.protoc -I prolog_primitives/proto " +
-                "--python_out=prolog_primitives/generatedProto " +
-                "--pyi_out=prolog_primitives/generatedProto " +
-                "--grpc_python_out=prolog_primitives/generatedProto prolog_primitives/proto/*.proto",
+            f"python -m grpc_tools.protoc -I {self.protoPath} " +
+                f"--python_out={self.generatedPath} " +
+                f"--pyi_out={self.generatedPath} " +
+                f"--grpc_python_out={self.generatedPath} {self.protoPath}/*.proto",
             text=True, check=True, shell=True)
         
         import glob
         import re
-        protoFiles = glob.glob('prolog_primitives\generatedProto\*.py',)
+        protoFiles = glob.glob(f'{self.generatedPath}/*.py',)
         for protoFile in protoFiles:
             with open(protoFile, 'r' ) as f:
                 content = f.read()
                 content_new = re.sub('(^import.*pb2)', r'from . \1', content, flags = re.M)
             with open(protoFile, 'w') as file:
                 file.write(content_new)
-        with open("prolog_primitives\generatedProto\__init__.py", "w") as f:
+        with open(f"{self.generatedPath}/__init__.py", "w") as f:
             f.close()
+        if os.path.exists(f"{self.generatedPath}/__init__.py"):
+            print("Files successfully generated  from .proto")
             
 setup(
     name='prolog_primitives',  # Required

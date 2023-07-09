@@ -44,8 +44,7 @@ jobs:
 
       - name: Generate .proto files
         shell: bash
-        run: |
-          python -m setup generate_proto
+        run: python -m setup generate_proto
       
       - name: Test
         run: python -m unittest discover -s test -t .

@@ -43,8 +43,7 @@ jobs:
 
       - name: Generate .proto files
         shell: bash
-        run: |
-          python -m setup generate_proto
+        run: python -m setup generate_proto
 
       - name: Change default logging level
         run: sed -i -e 's/DEBUG/WARN/g' prolog_primitives/__init__.py
