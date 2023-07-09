@@ -31,7 +31,7 @@ def main():
     def launchPrimitive(primitive: DistributedElements.DistributedPrimitiveWrapper, port: int):
         server = PrimitiveWrapper.serve(primitive, port, libraryName)
         servers.append(server)
-        server.wait_for_termination()
+        #server.wait_for_termination()
         
     primitives = [schemaPrimitive, theoryToSchemaPrimitive,
                 theoryToDatasetPrimitive, randomSplitPrimitive,
@@ -42,12 +42,16 @@ def main():
                 denseLayerPrimitive, outputLayerPrimitive, neuralNetworkPrimitive,
                 trainPrimitive, predictPrimitive, classifyPrimitive, msePrimitive]
 
-    port = 8080
+    initialport = 8080
+    port = initialport
     executor = ThreadPoolExecutor(max_workers=len(primitives))
 
     for primitive in primitives:
-        future = executor.submit(launchPrimitive, primitive, port)
+        #future = executor.submit(launchPrimitive, primitive, port)
+        launchPrimitive(primitive, port)
         port += 1
+
+    print(f"Servers listening from {initialport} to {port-1}")
 
     try:
         for server in servers:

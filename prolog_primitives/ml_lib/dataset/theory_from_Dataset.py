@@ -10,8 +10,8 @@ def wrapInClause(struct: basicMsg.StructMsg):
     finalStruct = basicMsg.StructMsg(
         functor = ":-"
     )
-    finalStruct.arguments.append(basicMsg.ArgumentMsg(struct=struct))
-    finalStruct.arguments.append(basicMsg.ArgumentMsg(constant="true"))
+    finalStruct.arguments.append(Utils.buildConstantArgumentMsg(struct))
+    finalStruct.arguments.append(Utils.buildConstantArgumentMsg(True))
     return finalStruct
 
 class __TheoryFromDatasetPrimitive(DistributedElements.DistributedPrimitive):
@@ -24,15 +24,10 @@ class __TheoryFromDatasetPrimitive(DistributedElements.DistributedPrimitive):
             dataset = SharedCollections().getDataset(Utils.parseArgumentMsg(dataset_ref))
             
             clauses = []
-            wrapInClause(
-                basicMsg.StructMsg(
-                    functor="schema_name",
-                    arguments=[basicMsg.ArgumentMsg(constant=schema.name)]
-            ))
             clauses.append(wrapInClause(
                 basicMsg.StructMsg(
                     functor="schema_name",
-                    arguments=[basicMsg.ArgumentMsg(constant=schema.name)]
+                    arguments=[Utils.buildConstantArgumentMsg(schema.name)]
             )))
             clauses.append(wrapInClause(
                 basicMsg.StructMsg(
@@ -45,14 +40,14 @@ class __TheoryFromDatasetPrimitive(DistributedElements.DistributedPrimitive):
                     basicMsg.StructMsg(
                         functor="attribute",
                         arguments=[
-                            basicMsg.ArgumentMsg(constant=str(i)),
-                            basicMsg.ArgumentMsg(constant=attr.name),
+                            Utils.buildConstantArgumentMsg(i),
+                            Utils.buildConstantArgumentMsg(attr.name),
                             attr.typeToArgumentMsg()]
                 )))
-                
+            
             for i in range(dataset.shape[0]):
                 values = list(map(
-                    lambda x: basicMsg.ArgumentMsg(constant = Utils.stringsConverter(x)),
+                    lambda x: Utils.buildConstantArgumentMsg(Utils.stringsConverter(x)),
                     [tf.get_static_value(x) for x in dataset[i].values()]))
                 clauses.append(wrapInClause(
                     basicMsg.StructMsg(
@@ -65,7 +60,8 @@ class __TheoryFromDatasetPrimitive(DistributedElements.DistributedPrimitive):
                     clauses = SetClausesOfKBMsg(
                         kbType = SetClausesOfKBMsg.DYNAMIC,
                         operationType = SetClausesOfKBMsg.ADD, 
-                        clauses = clauses))],
+                        clauses = clauses
+                        ))],
                 hasNext=False)
         else:
             yield request.replyFail()

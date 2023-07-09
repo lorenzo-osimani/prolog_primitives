@@ -38,7 +38,7 @@ class __TheoryToSchemaPrimitive(DistributedElements.DistributedPrimitive):
             else:
                 targets = Utils.parseArgumentMsgList(targetFact.arguments[0].struct.arguments[0])
             substitutions = {
-                arg0.var: basicMsg.ArgumentMsg(constant=collections
+                arg0.var: Utils.buildConstantArgumentMsg(collections
                                                .SharedCollections()
                                                .addSchema(collections.Schema(schema_name, attributes, targets))) 
                 }

@@ -18,7 +18,7 @@ class __FilterKBPrimitive(DistributedElements.DistributedPrimitive):
                     yield request.replyFail()
                 else:
                     substitutions = {}
-                    substitutions[arg1.var] = basicMsg.ArgumentMsg(struct=i)
+                    substitutions[arg1.var] = Utils.buildConstantArgumentMsg(i)
                     yield request.replySuccess(
                         substitutions=substitutions
                     )

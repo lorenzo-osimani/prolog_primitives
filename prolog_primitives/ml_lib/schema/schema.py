@@ -17,14 +17,14 @@ class __SchemaPrimitive(DistributedElements.DistributedPrimitive):
         if(not schema_ref.HasField("var") and schema_name.HasField("var") and attributes.HasField("var") and targets.HasField("var")):
             schema: Schema = SharedCollections().getSchema(str(Utils.parseArgumentMsg(schema_ref)))
             if(schema != None):
-                name_fact = basicMsg.ArgumentMsg(constant = schema.name)
+                name_fact = Utils.buildConstantArgumentMsg(schema.name)
                 attributes_facts = list[basicMsg.StructMsg]()
                 i: int = 0
                 
                 for attr in schema.attributes:
                     attribute = [
-                        basicMsg.ArgumentMsg(constant = str(i)),
-                        basicMsg.ArgumentMsg(constant = attr.name),
+                        Utils.buildConstantArgumentMsg(i),
+                        Utils.buildConstantArgumentMsg(attr.name),
                         attr.typeToArgumentMsg()
                     ]
                     attributes_facts.append(
@@ -53,7 +53,7 @@ class __SchemaPrimitive(DistributedElements.DistributedPrimitive):
             id = SharedCollections().addSchema(
                 Schema(str(Utils.parseArgumentMsg(schema_name)), attributesList, targetsList))
             yield request.replySuccess(substitutions={
-                schema_ref.var:  basicMsg.ArgumentMsg(constant=id)
+                schema_ref.var:  Utils.buildConstantArgumentMsg(id)
             }, hasNext=False)
         else:
             yield request.replyFail()

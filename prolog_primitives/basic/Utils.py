@@ -1,5 +1,6 @@
 
 from prolog_primitives.generatedProto import basicMessages_pb2 as basicMsg
+import numbers
 
 class Struct:
     functor: str
@@ -26,8 +27,10 @@ def parseArgumentMsg(msg: basicMsg.ArgumentMsg):
             return parseStructMsg(msg.struct)
     elif(msg.HasField("var")):
         return msg.var
-    elif(msg.HasField("constant")):
-        return msg.constant
+    elif(msg.HasField("numeric")):
+        return msg.numeric
+    elif(msg.HasField("atom")):
+        return msg.atom
     
 def parseStructMsg(msg: basicMsg.StructMsg):
     if(len(msg.arguments) > 0):
@@ -37,8 +40,7 @@ def parseStructMsg(msg: basicMsg.StructMsg):
         return Struct(msg.functor, arguments)
     else:   
         return msg.functor
-    
-    
+       
 def parseArgumentMsgList(msg: basicMsg.ArgumentMsg) -> list:
     returnValue = list()
     currentValue = msg.struct
@@ -48,8 +50,8 @@ def parseArgumentMsgList(msg: basicMsg.ArgumentMsg) -> list:
     return returnValue 
 
 def fromListToArgumentMsg(elements: list) -> basicMsg.ArgumentMsg:
-    last_element = basicMsg.ArgumentMsg(
-        struct=basicMsg.StructMsg(
+    last_element = buildConstantArgumentMsg(
+        basicMsg.StructMsg(
                 functor = "[]"
             )
         )
@@ -61,22 +63,34 @@ def fromListToArgumentMsg(elements: list) -> basicMsg.ArgumentMsg:
         )
         if(type(i) is basicMsg.StructMsg):
             current_element.arguments.append(
-                basicMsg.ArgumentMsg(struct=i)
+                buildConstantArgumentMsg(i)
             )
-        else:
+        elif(isinstance(i, numbers.Number)):
             current_element.arguments.append(
-                basicMsg.ArgumentMsg(constant=str(i))
+                buildConstantArgumentMsg(i)
+            )
+        elif(type(i) is str):
+            current_element.arguments.append(
+                buildConstantArgumentMsg(i)
             )
         current_element.arguments.append(
                 last_element
             )
-        last_element = basicMsg.ArgumentMsg(
-            struct = current_element
-        )
+        last_element = buildConstantArgumentMsg(current_element)
     return last_element
       
 def stringsConverter(x):
     if(type(x) is bytes):
-        return x.decode('utf-8')
+        return str(x.decode('utf-8'))
     else:
-        return str(x)
+        return float(x)
+
+def buildConstantArgumentMsg(value):
+    if(type(value) is str):
+        return basicMsg.ArgumentMsg(atom=value)
+    if(type(value) is basicMsg.StructMsg):
+        return basicMsg.ArgumentMsg(struct=value)
+    if(type(value) is bool):
+        return basicMsg.ArgumentMsg(flag=value)
+    if(isinstance(value, numbers.Number)):
+        return basicMsg.ArgumentMsg(numeric=value)

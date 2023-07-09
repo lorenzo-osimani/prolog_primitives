@@ -70,7 +70,7 @@ class __Train(DistributedElements.DistributedPrimitive):
             
             id = SharedCollections().addModel(model)
             yield request.replySuccess(substitutions={
-                predictor_out_ref.var: basicMsg.ArgumentMsg(constant=id)
+                predictor_out_ref.var: Utils.buildConstantArgumentMsg(id)
                 }, hasNext=False)
         else:
             yield request.replyFail()

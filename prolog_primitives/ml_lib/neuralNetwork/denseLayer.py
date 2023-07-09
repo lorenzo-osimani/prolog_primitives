@@ -29,7 +29,7 @@ class __DenseLayer(DistributedElements.DistributedPrimitive):
             
             id = SharedCollections().addTopology(topology)
             yield request.replySuccess(substitutions={
-                topology_out_ref.var: basicMsg.ArgumentMsg(constant=id)
+                topology_out_ref.var: Utils.buildConstantArgumentMsg(id)
                 }, hasNext=False)
         else:
             yield request.replyFail()

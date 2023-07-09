@@ -17,7 +17,7 @@ class __ColumnPrimitive(DistributedElements.DistributedPrimitive):
                 
             if(not column.HasField("var")): 
                 i = Utils.parseArgumentMsg(column)
-                if(i.isdigit()):
+                if(type(i) is not str):
                     i = dataset.column_names[int(i)]
                 column = list(map(Utils.stringsConverter, tf.get_static_value(dataset[i])))
                 yield request.replySuccess({
@@ -30,9 +30,9 @@ class __ColumnPrimitive(DistributedElements.DistributedPrimitive):
                     col = list(map(Utils.stringsConverter, tf.get_static_value(dataset[name])))
                     i += 1
                     yield request.replySuccess({
-                        column.var: basicMsg.ArgumentMsg(constant=name),
+                        column.var: Utils.buildConstantArgumentMsg(name),
                         values.var: Utils.fromListToArgumentMsg(col)
-                    }, hasNext= (i < dataset.shape[1]))
+                    }, hasNext = (i < dataset.shape[1]))
                 
         else:
             yield request.replyFail()

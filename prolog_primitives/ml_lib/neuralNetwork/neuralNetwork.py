@@ -25,7 +25,7 @@ class __NeuralNetwork(DistributedElements.DistributedPrimitive):
             
             id = SharedCollections().addModel(model)
             yield request.replySuccess(substitutions={
-                predictor_ref.var: basicMsg.ArgumentMsg(constant=id)
+                predictor_ref.var: Utils.buildConstantArgumentMsg(id)
                 }, hasNext=False)
         else:
             yield request.replyFail()

@@ -32,7 +32,7 @@ class __RowPrimitive(DistributedElements.DistributedPrimitive):
                     i += 1
                     yield request.replySuccess(
                         substitutions={
-                            index.var: basicMsg.ArgumentMsg(constant=str(i)),
+                            index.var: Utils.buildConstantArgumentMsg(i),
                             values.var: Utils.fromListToArgumentMsg(row)
                             }, hasNext = (i < dataset.shape[0]))
         else:

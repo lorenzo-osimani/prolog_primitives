@@ -3,8 +3,8 @@ sys.path.append('../generatedProto')
 
 import unittest
 from prolog_primitives.basic.PrimitiveWrapper import serve
-from prolog_primitives.basic import DistributedElements
-from generatedProto import basicMessages_pb2 as basicMsg
+from prolog_primitives.basic import DistributedElements, Utils
+from prolog_primitives.generatedProto import basicMessages_pb2 as basicMsg
 from typing import Generator
 
 class TestMyClass(unittest.TestCase):
@@ -20,10 +20,10 @@ class NtPrimitive(DistributedElements.DistributedPrimitive):
             n = 0
             while(True):
                 substitutions = {}
-                substitutions[arg0.var] = basicMsg.ArgumentMsg(constant=str(n))
+                substitutions[arg0.var] = Utils.buildConstantArgumentMsg(n)
                 yield request.replySuccess(substitutions = substitutions)
                 n += 1
-        elif(arg0.HasField("constant") and int(arg0.constant)):
+        elif(arg0.HasField("numeric")):
             yield request.replySuccess(hasNext = False)
         else:
             yield request.replyFail()

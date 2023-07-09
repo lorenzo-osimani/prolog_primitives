@@ -20,7 +20,6 @@ class GenericPrimitive(Server.GenericPrimitiveService):
         self.functor = functor
         self.arity = arity
         self.executor = executor
-        
 
     def getSignature(self, request, context):
         signature = (self.functor, self.arity)
@@ -39,17 +38,19 @@ class GenericPrimitive(Server.GenericPrimitiveService):
                         queue = queue)
                 else:
                     self.executor.submit(session.handleMessage, msg)
-        
         self.executor.submit(messageHandling)
         
         context.add_callback(lambda: queue.put(None))
+        
         while context.is_active():
             msg: primitivesMsg.GeneratorMsg = queue.get()
             if(msg != None):
-                yield msg              
+                yield msg
+            else:
+                context.cancel()
 
 def serve(primitive: DistributedElements.DistributedPrimitiveWrapper, port: int = 8080, libraryName: str = "", withDB: bool = False):
-    executor = futures.ThreadPoolExecutor(64)
+    executor = futures.ThreadPoolExecutor(16)
     service = GenericPrimitive(primitive.primitive, primitive.functor, primitive.arity, executor)
     server = grpc.server(executor)
     Server.add_GenericPrimitiveServiceServicer_to_server(service, server)

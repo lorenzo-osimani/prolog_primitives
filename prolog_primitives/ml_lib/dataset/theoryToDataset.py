@@ -41,7 +41,7 @@ class __TheoryToDatasetPrimitive(DistributedElements.DistributedPrimitive):
             dataset = Dataset.from_dict(data).with_format("tf")
             datasetId = SharedCollections().addDataset(dataset, schemaId)
             yield request.replySuccess(substitutions={
-                dataset_ref.var: basicMsg.ArgumentMsg(constant=datasetId)
+                dataset_ref.var: Utils.buildConstantArgumentMsg(datasetId)
                 }, hasNext=False)
         else:
             yield request.replyFail()

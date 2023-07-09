@@ -53,7 +53,7 @@ class __Classify(DistributedElements.DistributedPrimitive):
                 dataset = Dataset.from_dict({"labels":classification}).with_format("tf")
                 datasetId = SharedCollections().addDataset(dataset, None)
                 yield request.replySuccess(substitutions={
-                    classification_ref.var: basicMsg.ArgumentMsg(constant=datasetId)
+                    classification_ref.var: Utils.buildConstantArgumentMsg(datasetId)
                     }, hasNext=False)
             else:
                 row = [float(x) for x in Utils.parseArgumentMsgList(prediction_ref)]
@@ -61,7 +61,7 @@ class __Classify(DistributedElements.DistributedPrimitive):
                 if(type(result) == list):
                     result = Utils.fromListToArgumentMsg(result)
                 else:
-                    result = basicMsg.ArgumentMsg(constant=result)
+                    result = Utils.buildConstantArgumentMsg(result)
                 
                 yield request.replySuccess(substitutions={
                     classification_ref.var: result

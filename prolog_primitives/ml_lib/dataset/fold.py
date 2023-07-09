@@ -29,8 +29,8 @@ class __FoldPrimitive(DistributedElements.DistributedPrimitive):
                 val_id = SharedCollections().addDataset(val_ds, schemaId)
             
                 yield request.replySuccess(substitutions={
-                    train_ref.var: basicMsg.ArgumentMsg(constant=train_id),
-                    val_ref.var: basicMsg.ArgumentMsg(constant=val_id)
+                    train_ref.var: Utils.buildConstantArgumentMsg(train_id),
+                    val_ref.var: Utils.buildConstantArgumentMsg(val_id)
                     }, hasNext= kfold + 1 < k)
         else:
             yield request.replyFail()

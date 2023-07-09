@@ -53,7 +53,7 @@ class __AssessTemplate(DistributedElements.DistributedPrimitive, ABC):
             totalscore = tf.get_static_value(sum(scores)/len(scores))
                             
             yield request.replySuccess(substitutions={
-                score.var: basicMsg.ArgumentMsg(constant=str(totalscore))
+                score.var:Utils.buildConstantArgumentMsg(totalscore)
             }, hasNext=False)
 
         else:

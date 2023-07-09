@@ -35,8 +35,7 @@ def get_version_from_git():
         if version_file.exists():
             return version_file.read_text().strip()
         else:
-            return '0.4.2'
-
+            return '0.4.3'
 
 version = get_version_from_git()
 
@@ -59,6 +58,44 @@ class GetVersionCommand(distutils.cmd.Command):
     def run(self):
         print(version)
 
+
+class GenerateProtoCommand(distutils.cmd.Command):
+    description = 'generate the files from .proto'
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+    
+    def run(self):
+        import os
+        import platform
+        if not os.path.exists("prolog_primitives/generatedProto"):
+            os.mkdir("prolog_primitives/generatedProto")
+        subprocess.run(
+            "python -m grpc_tools.protoc -I prolog_primitives/proto " +
+                "--python_out=prolog_primitives/generatedProto " +
+                "--pyi_out=prolog_primitives/generatedProto " +
+                "--grpc_python_out=prolog_primitives/generatedProto prolog_primitives/proto/*.proto"
+            , text=True, check=True, shell=True)
+        
+        if(platform.system() == "Windows"):
+            import glob
+            import re
+            protoFiles = glob.glob('prolog_primitives\generatedProto\*.py',)
+            for protoFile in protoFiles:
+                with open (protoFile, 'r' ) as f:
+                    content = f.read()
+                    content_new = re.sub('(^import.*pb2)', r'from . \1', content, flags = re.M)
+                with open(protoFile, 'w') as file:
+                    file.write(content_new)
+            subprocess.run("type nul > prolog_primitives\generatedProto\__init__.py", text=True, check=True, shell=True)
+        else:
+             subprocess.run("sed -i '' 's/^\(import.*pb2\)/from . \1/g' prolog_primitives\generatedProto\*.py",
+                            text=True, check=True, shell=True)
+            
 setup(
     name='prolog_primitives',  # Required
     version=version,
@@ -104,6 +141,7 @@ setup(
     },
     cmdclass={
         'get_project_version': GetVersionCommand,
+        'generate_proto': GenerateProtoCommand
     },
 )
 

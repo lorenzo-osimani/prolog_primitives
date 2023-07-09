@@ -1,4 +1,4 @@
-from prolog_primitives.basic import DistributedElements
+from prolog_primitives.basic import DistributedElements, Utils
 from prolog_primitives.generatedProto import basicMessages_pb2 as basicMsg
 from typing import Generator
 
@@ -13,10 +13,10 @@ class NtPrimitive(DistributedElements.DistributedPrimitive):
             n = 0
             while(True):
                 substitutions = {}
-                substitutions[arg0.var] = basicMsg.ArgumentMsg(constant=str(n))
+                substitutions[arg0.var] = Utils.buildConstantArgumentMsg(n)
                 yield request.replySuccess(substitutions = substitutions)
                 n += 1
-        elif(arg0.HasField("constant") and arg0.constant.isdigit()):
+        elif(arg0.HasField("numeric")):
             yield request.replySuccess(hasNext = False)
         else:
             yield request.replyFail()

@@ -16,7 +16,7 @@ class __InputLayer(DistributedElements.DistributedPrimitive):
             size = int(Utils.parseArgumentMsg(size))
             id = SharedCollections().addTopology([tf.keras.Input(shape=(size,), name="input")])
             yield request.replySuccess(substitutions={
-                topology_ref.var: basicMsg.ArgumentMsg(constant=id)
+                topology_ref.var: Utils.buildConstantArgumentMsg(id)
                 }, hasNext=False)
         else:
             yield request.replyFail()

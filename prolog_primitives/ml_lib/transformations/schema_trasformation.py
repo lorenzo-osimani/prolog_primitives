@@ -17,7 +17,7 @@ class __SchemaTrasformation(DistributedElements.DistributedPrimitive):
             
             id = SharedCollections().addPipeline(Pipeline(schema_id))
             yield request.replySuccess(substitutions={
-                transf_ref.var: basicMsg.ArgumentMsg(constant=id)
+                transf_ref.var: Utils.buildConstantArgumentMsg(id)
                 }, hasNext=False)
         elif(schema_ref.HasField('var') and not transf_ref.HasField('var')):
             transformation_id = Utils.parseArgumentMsg(transf_ref)
@@ -25,7 +25,7 @@ class __SchemaTrasformation(DistributedElements.DistributedPrimitive):
             
             id = SharedCollections().addSchema(transformation.computeFinalSchema())
             yield request.replySuccess(substitutions = {
-                schema_ref.var: basicMsg.ArgumentMsg(constant=id)
+                schema_ref.var: Utils.buildConstantArgumentMsg(id)
             }, hasNext=False)            
         else:
             yield request.replyFail()

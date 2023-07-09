@@ -23,7 +23,7 @@ class __Drop(DistributedElements.DistributedPrimitive):
                 
             id = SharedCollections().addPipeline(transf.append(dict.fromkeys(attributes, [Dropper()])))
             yield request.replySuccess(substitutions={
-                transf_out_ref.var: basicMsg.ArgumentMsg(constant=id)
+                transf_out_ref.var: Utils.buildConstantArgumentMsg(id)
                 }, hasNext=False)
         else:
             yield request.replyFail()

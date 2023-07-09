@@ -44,7 +44,7 @@ class __Predict(DistributedElements.DistributedPrimitive):
                 datasetId = SharedCollections().addDataset(dataset, schemaId)
             
                 yield request.replySuccess(substitutions={
-                    prediction_ref.var: basicMsg.ArgumentMsg(constant=datasetId)
+                    prediction_ref.var: Utils.buildConstantArgumentMsg(datasetId)
                     }, hasNext=False)
             else:
                 row = [float(x) for x in Utils.parseArgumentMsg(dataset_ref).arguments]

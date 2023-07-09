@@ -19,7 +19,7 @@ class __Fit(DistributedElements.DistributedPrimitive):
             
             id = SharedCollections().addPipeline(transf.adapt(dataset))
             yield request.replySuccess(substitutions={
-                transf_out_ref.var: basicMsg.ArgumentMsg(constant=id)
+                transf_out_ref.var: Utils.buildConstantArgumentMsg(id)
                 }, hasNext=False)
         else:
             yield request.replyFail()

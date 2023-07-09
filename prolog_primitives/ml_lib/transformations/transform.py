@@ -23,7 +23,7 @@ class __Transform(DistributedElements.DistributedPrimitive):
                 id = SharedCollections().addDataset(dataset_out, schemaId)
 
                 yield request.replySuccess(substitutions={
-                    dataset_out_ref.var: basicMsg.ArgumentMsg(constant=id)
+                    dataset_out_ref.var: Utils.buildConstantArgumentMsg(id)
                     }, hasNext=False)
             elif(dataset_in_ref.HasField("var") and not dataset_out_ref.HasField("var")):
                 dataset_out: Dataset = SharedCollections().getDataset(Utils.parseArgumentMsg(dataset_out_ref))
@@ -31,7 +31,7 @@ class __Transform(DistributedElements.DistributedPrimitive):
                 id = SharedCollections().addDataset(dataset_in, transf.originalSchema)
 
                 yield request.replySuccess(substitutions={
-                    dataset_in_ref.var: basicMsg.ArgumentMsg(constant=id)
+                    dataset_in_ref.var: Utils.buildConstantArgumentMsg(id)
                     }, hasNext=False)
         else:
             yield request.replyFail()

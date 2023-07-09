@@ -20,35 +20,27 @@ class Attribute:
         if(self.vocab != []):
             vocab_msg = Utils.fromListToArgumentMsg(self.vocab)
             if("int" in str(self.type)):    
-                return basicMsg.ArgumentMsg(
-                    struct = basicMsg.StructMsg(
+                return Utils.buildConstantArgumentMsg(
+                    basicMsg.StructMsg(
                         functor="ordinal",
                         arguments = [vocab_msg]
                     )
                 )
             else:
-                return basicMsg.ArgumentMsg(
-                    struct = basicMsg.StructMsg(
+                return Utils.buildConstantArgumentMsg(
+                    basicMsg.StructMsg(
                         functor="categorical",
                         arguments = [vocab_msg]
                     )
                 )
         if("int" in str(self.type)):
-            return basicMsg.ArgumentMsg(
-                constant="integer"
-            )
+            return Utils.buildConstantArgumentMsg("integer")
         elif("float" in str(self.type)):
-            return basicMsg.ArgumentMsg(
-                constant="real"
-            )
+            return Utils.buildConstantArgumentMsg("real")
         elif("str" in str(self.type)):
-            return basicMsg.ArgumentMsg(
-                constant="string"
-            )
+            return Utils.buildConstantArgumentMsg("string")
         elif("bool" in str(self.type)):
-            return basicMsg.ArgumentMsg(
-                constant="boolean"
-            )
+            return Utils.buildConstantArgumentMsg("boolean")
         
     def typeCastElement(self, element):
         if(self.vocab != []): 
@@ -57,7 +49,7 @@ class Attribute:
             elif(self.type == tf.int64 and int(element) in self.vocab):
                 return int(element)
         elif(self.type == tf.int64):
-            return int(element)
+            return int(float(element))
         elif(self.type == tf.float64):
             return float(element)
         elif(self.type == tf.string):
