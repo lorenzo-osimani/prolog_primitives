@@ -1,11 +1,10 @@
-import logging
-from prolog_primitives.basic import serve
 from prolog_primitives.basic import DistributedElements, Utils
-
-import prolog_primitives.generatedProto.basicMessages_pb2 as basicMsg
 from typing import Generator
 
-class NtPrimitive(DistributedElements.DistributedPrimitive):
+# this is the main module of your app
+# it is only required if your project must be runnable
+# this is the script to be executed whenever some users writes `python -m python-Primitives-Server` on the command line, eg.
+class __NtPrimitive(DistributedElements.DistributedPrimitive):
     
     def solve(self, request: DistributedElements.DistributedRequest) -> Generator[DistributedElements.DistributedResponse, None, None]:
         arg0 = request.arguments[0]
@@ -20,9 +19,5 @@ class NtPrimitive(DistributedElements.DistributedPrimitive):
             yield request.replySuccess(hasNext = False)
         else:
             yield request.replyFail()
-    
-if __name__ == '__main__':
-    logging.basicConfig()
-    serve(NtPrimitive(), "nt", 1, 8081, "customLibrary")
-    
-        
+            
+ntPrimitive = DistributedElements.DistributedPrimitiveWrapper("nt", 4, __NtPrimitive())
