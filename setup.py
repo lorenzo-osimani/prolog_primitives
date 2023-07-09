@@ -87,6 +87,7 @@ class GenerateProtoCommand(distutils.cmd.Command):
         protoFiles = glob.glob(f'{self.generatedPath}/*.py',)
         for protoFile in protoFiles:
             with open(protoFile, 'r' ) as f:
+                print(protoFile)
                 content = f.read()
                 content_new = re.sub('(^import.*pb2)', r'from . \1', content, flags = re.M)
             with open(protoFile, 'w') as file:
@@ -94,7 +95,7 @@ class GenerateProtoCommand(distutils.cmd.Command):
         with open(f"{self.generatedPath}/__init__.py", "w") as f:
             f.close()
         if os.path.exists(f"{self.generatedPath}/__init__.py"):
-            print("Files successfully generated  from .proto")
+            print("Files successfully generated from .proto")
             
 setup(
     name='prolog_primitives',  # Required
