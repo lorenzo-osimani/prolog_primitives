@@ -68,16 +68,14 @@ class GenerateProtoCommand(distutils.cmd.Command):
     
     def run(self):
         import os
-        import platform
         if not os.path.exists("prolog_primitives/generatedProto"):
             os.mkdir("prolog_primitives/generatedProto")
         subprocess.run(
             "python -m grpc_tools.protoc -I prolog_primitives/proto " +
                 "--python_out=prolog_primitives/generatedProto " +
                 "--pyi_out=prolog_primitives/generatedProto " +
-                "--grpc_python_out=prolog_primitives/generatedProto prolog_primitives/proto/*.proto"
-            , text=True, check=True, shell=True)
-        
+                "--grpc_python_out=prolog_primitives/generatedProto prolog_primitives/proto/*.proto",
+            text=True, check=True, shell=True)
         
         import glob
         import re
