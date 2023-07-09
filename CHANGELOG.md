@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/lorenzo-osimani/prolog_primitives/compare/1.0.1...1.0.2) (2023-07-09)
+
+
+### Bug Fixes
+
+* **chore:** fixing generate_proto in git actions ([7719f69](https://github.com/lorenzo-osimani/prolog_primitives/commit/7719f698aa08ec662fc25f2a950cbfd71ea51a32))
+
 ## [1.0.1](https://github.com/lorenzo-osimani/prolog_primitives/compare/1.0.0...1.0.1) (2023-07-09)
 
 
