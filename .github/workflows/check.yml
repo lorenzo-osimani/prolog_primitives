@@ -44,5 +44,5 @@ jobs:
 
       - name: Generate .proto files
         run: |
-          python setup.py generate_proto
+          python -m setup generate_proto
           
