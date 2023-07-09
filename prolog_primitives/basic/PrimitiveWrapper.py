@@ -50,7 +50,7 @@ class GenericPrimitive(Server.GenericPrimitiveService):
                 context.cancel()
 
 def serve(primitive: DistributedElements.DistributedPrimitiveWrapper, port: int = 8080, libraryName: str = "", withDB: bool = False):
-    executor = futures.ThreadPoolExecutor(16)
+    executor = futures.ThreadPoolExecutor(32)
     service = GenericPrimitive(primitive.primitive, primitive.functor, primitive.arity, executor)
     server = grpc.server(executor)
     Server.add_GenericPrimitiveServiceServicer_to_server(service, server)
