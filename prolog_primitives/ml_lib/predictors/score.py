@@ -64,7 +64,9 @@ class __AssessTemplate(DistributedElements.DistributedPrimitive, ABC):
 class __Mse(__AssessTemplate):
     
     def evaluator(self, y_true, y_pred):
-        return tf.keras.metrics.mean_squared_error(y_true, y_pred)
+        m = tf.keras.metrics.MeanSquaredError()
+        m.update_state(y_true, y_pred)
+        return m.result().numpy()
                  
 msePrimitive = DistributedElements.DistributedPrimitiveWrapper("mse", 3, __Mse())
 
