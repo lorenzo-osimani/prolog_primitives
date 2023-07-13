@@ -1,3 +1,13 @@
+## [1.0.5](https://github.com/lorenzo-osimani/prolog_primitives/compare/1.0.4...1.0.5) (2023-07-09)
+
+
+### Bug Fixes
+
+* **chore:** added simple test ([fc32853](https://github.com/lorenzo-osimani/prolog_primitives/commit/fc32853f9a3e611740d69a051a0f6394ef787c02))
+* **chore:** Refactoring generate_proto ([fba5fb9](https://github.com/lorenzo-osimani/prolog_primitives/commit/fba5fb9fd8049e9b026e5223f0522b43bcaf0bd1))
+* **ci:** modified python version of check ([93db9a4](https://github.com/lorenzo-osimani/prolog_primitives/commit/93db9a4b3c37e14d13ac8ace993705d08eb1b853))
+* **ci:** working on check for generate_proto ([2532d87](https://github.com/lorenzo-osimani/prolog_primitives/commit/2532d87ab1760e1a166516008a1e3b27b3bd4d5f))
+
 ## [1.0.4](https://github.com/lorenzo-osimani/prolog_primitives/compare/1.0.3...1.0.4) (2023-07-09)
 
 
