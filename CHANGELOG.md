@@ -1,3 +1,10 @@
+## [1.1.0](https://github.com/lorenzo-osimani/prolog_primitives/compare/1.0.5...1.1.0) (2023-07-13)
+
+
+### Features
+
+* **core:** fixed multiple errors in operations ([6ced9f6](https://github.com/lorenzo-osimani/prolog_primitives/commit/6ced9f61a2b7f455ebe8f8974627df49de05c073))
+
 ## [1.0.5](https://github.com/lorenzo-osimani/prolog_primitives/compare/1.0.4...1.0.5) (2023-07-09)
 
 
