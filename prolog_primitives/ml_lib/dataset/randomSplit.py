@@ -20,8 +20,8 @@ class __RandomSplitPrimitive(DistributedElements.DistributedPrimitive):
             train_size = int(ratio * len(list(dataset)))
         
             shuffled = dataset.shuffle()
-            train_ds = shuffled[:train_size]
-            val_ds = dataset[train_size:]
+            train_ds = Dataset.from_dict(shuffled[:train_size]).with_format("tf")
+            val_ds = Dataset.from_dict(dataset[train_size:]).with_format("tf")
             
             train_id = SharedCollections().addDataset(train_ds, schemaId)
             val_id = SharedCollections().addDataset(val_ds, schemaId)

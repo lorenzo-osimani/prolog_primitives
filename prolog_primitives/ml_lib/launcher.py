@@ -20,7 +20,7 @@ from .neuralNetwork.neuralNetwork import neuralNetworkPrimitive
 from .predictors.train import trainPrimitive
 from .predictors.predict import predictPrimitive
 from .predictors.classify import classifyPrimitive
-from .predictors.score import msePrimitive
+from .predictors.score import msePrimitive, maePrimitive, accuracyPrimitive, recallPrimitive, rPrimitive
 from ..basic import PrimitiveWrapper, DistributedElements
 from concurrent.futures import ThreadPoolExecutor
 
@@ -40,7 +40,8 @@ def main():
                 normalizePrimitive, one_hot_encodePrimitive, dropPrimitive,
                 fitPrimitive, transformPrimitive, inputLayerPrimitive,
                 denseLayerPrimitive, outputLayerPrimitive, neuralNetworkPrimitive,
-                trainPrimitive, predictPrimitive, classifyPrimitive, msePrimitive]
+                trainPrimitive, predictPrimitive, classifyPrimitive, msePrimitive,
+                maePrimitive, accuracyPrimitive, recallPrimitive, rPrimitive]
 
     initialport = 8080
     port = initialport

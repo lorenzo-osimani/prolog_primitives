@@ -43,30 +43,29 @@ class __Train(DistributedElements.DistributedPrimitive):
             datasetId = Utils.parseArgumentMsg(dataset_ref)
             dataset: Dataset = SharedCollections().getDataset(datasetId)
             schema = SharedCollections().getSchema(SharedCollections().getSchemaIdFromDataset(datasetId))
-            params = parseParams(Utils.parseArgumentMsg(params))
             
-            input = None
-            output = None
+            params = Utils.parseArgumentMsg(params)
+            if(type(params) is list[Utils.Struct]):
+                params = parseParams(params)
+            else:
+                params = parseParams(dict())
+            input = list()
+            output = list()
             for attr in dataset.column_names:
                 if(attr in schema.targets):
-                    if(output == None):
-                        output = tf.cast(dataset[attr], tf.float32)
-                    else:
-                        output = tf.stack([output, tf.cast(dataset[attr], tf.float32)], axis = 1)
+                    output.append(tf.cast(dataset[attr], tf.float32))
                 else:
-                    if(input == None):
-                        input = tf.cast(dataset[attr], tf.float32)
-                    else:
-                        input = tf.stack([input, tf.cast(dataset[attr], tf.float32)], axis = 1)
+                    input.append(tf.cast(dataset[attr], tf.float32))
+            output = tf.stack(output, axis = 1)
+            input = tf.stack(input, axis = 1)
             optimizer = tf.keras.optimizers.Adam(learning_rate=params["learning_rate"])
+            
             model.compile(
                 loss = params["loss"],
                 optimizer=optimizer,
-                metrics=[tf.keras.metrics.CategoricalAccuracy()],
+                metrics=["mse"],
             )
-            
             model.fit(x=input,y=output, batch_size=params["batch"], epochs=params["epoch"])
-            
             id = SharedCollections().addModel(model)
             yield request.replySuccess(substitutions={
                 predictor_out_ref.var: Utils.buildConstantArgumentMsg(id)

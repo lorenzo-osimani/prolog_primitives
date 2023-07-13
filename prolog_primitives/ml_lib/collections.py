@@ -76,7 +76,8 @@ class SharedCollections(object):
         import string
         characters = string.ascii_lowercase# + string.digits
         id = ''.join(random.choice(characters) for i in range(10)) 
-        while(id in self.__schemas or id in self.__dataset):
+        while(id in self.__schemas or id in self.__dataset or id in self.__pipeline
+            or id in self.__topology or id in self. __model):
             id = ''.join(random.choice(characters) for i in range(10)) 
         return id  
    

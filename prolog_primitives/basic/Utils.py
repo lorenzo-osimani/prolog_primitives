@@ -45,7 +45,9 @@ def parseArgumentMsgList(msg: basicMsg.ArgumentMsg) -> list:
     returnValue = list()
     currentValue = msg.struct
     while(len(currentValue.arguments) != 0):
-        returnValue.append(parseArgumentMsg(currentValue.arguments[0]))
+        value = parseArgumentMsg(currentValue.arguments[0])
+        if(value != "[" and value != "]"):
+            returnValue.append(value)
         currentValue = currentValue.arguments[1].struct
     return returnValue 
 

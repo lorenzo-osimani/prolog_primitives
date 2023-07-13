@@ -3,7 +3,9 @@ from typing import Generator
 from prolog_primitives.basic import Utils
 from ..collections import SharedCollections
 import tensorflow as tf
+from ..schema.schemaClass import Schema
 from abc import ABC, abstractmethod
+import numpy as np
 
 
 
@@ -24,18 +26,21 @@ class __AssessTemplate(DistributedElements.DistributedPrimitive, ABC):
             def parseY(input):
                 if(type(input) is str):
                     dataset = SharedCollections().getDataset(input)
+                    schema: Schema = SharedCollections().getSchema(SharedCollections().getSchemaIdFromDataset(input))
                     y = {}
                     for attr in dataset.column_names:
-                        y[attr] = list(tf.get_static_value(dataset[attr]))
+                        if(attr in schema.targets):
+                            y[attr] = list(tf.get_static_value(dataset[attr]))
                     return y
                 elif(type(input[0]) is list):
-                    y = []
-                    for x in range(len(input[0])):
-                        y.append([float(input[0][x])])
+                    y = {}
+                    lenght_1 = len(input[0])
+                    lenght_2 = len(input)
+                    input = np.reshape(input, (lenght_1, lenght_2))
+                    
+                    for x in range(len(input)):
+                        y[f"target{x}"] = list(input[x])
                         
-                    for row in input[1:]:
-                        for x in range(len(row)):
-                            y[x].append(float(row[x]))
                     return y
                 else:
                     return [float(x) for x in input]
@@ -43,13 +48,12 @@ class __AssessTemplate(DistributedElements.DistributedPrimitive, ABC):
             y_true = parseY(Utils.parseArgumentMsg(y_true_ref))
                     
             y_pred = parseY(Utils.parseArgumentMsg(y_pred_ref))   
-                
             scores = []   
-            for (attr, y1), y2 in zip(y_true.items(), y_pred):
+            for (attr1, y1), (attr2, y2) in zip(y_true.items(), y_pred.items()):
                 scores.append(self.evaluator(y1, y2))
             
             totalscore = tf.get_static_value(sum(scores)/len(scores))
-                            
+            
             yield request.replySuccess(substitutions={
                 score.var:Utils.buildConstantArgumentMsg(totalscore)
             }, hasNext=False)
@@ -68,7 +72,9 @@ msePrimitive = DistributedElements.DistributedPrimitiveWrapper("mse", 3, __Mse()
 class __Mae(__AssessTemplate):
     
     def evaluator(self, y_true, y_pred):
-        return tf.keras.metrics.mean_absolute_error(y_true, y_pred)
+        m = tf.keras.metrics.MeanAbsoluteError()
+        m.update_state(y_true, y_pred)
+        return m.result().numpy()
                  
 maePrimitive = DistributedElements.DistributedPrimitiveWrapper("mae", 3, __Mae())
 
@@ -100,13 +106,3 @@ class __Accuracy(__AssessTemplate):
         return m.result().numpy()
                  
 accuracyPrimitive = DistributedElements.DistributedPrimitiveWrapper("accuracy", 3, __Accuracy())
-
-#only available via pip install tf-nightly.
-class __F1Score(__AssessTemplate):
-    
-    def evaluator(self, y_true, y_pred):
-        m = tf.keras.metrics.F1Score()
-        m.update_state(y_true, y_pred)
-        return m.result().numpy()
-                 
-f1ScorePrimitive = DistributedElements.DistributedPrimitiveWrapper("f1_score", 3, __F1Score())

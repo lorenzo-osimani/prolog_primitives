@@ -12,15 +12,14 @@ class __SchemaTrasformation(DistributedElements.DistributedPrimitive):
         
         if(not schema_ref.HasField('var') and transf_ref.HasField('var')):
             schema_id = Utils.parseArgumentMsg(schema_ref)
-            
-            id = SharedCollections().addPipeline(Pipeline(schema_id))
+            pipeline = Pipeline(schema_id)
+            id = SharedCollections().addPipeline(pipeline)
             yield request.replySuccess(substitutions={
                 transf_ref.var: Utils.buildConstantArgumentMsg(id)
                 }, hasNext=False)
         elif(schema_ref.HasField('var') and not transf_ref.HasField('var')):
             transformation_id = Utils.parseArgumentMsg(transf_ref)
             transformation: Pipeline = SharedCollections().getPipeline(transformation_id)
-            
             id = SharedCollections().addSchema(transformation.computeFinalSchema())
             yield request.replySuccess(substitutions = {
                 schema_ref.var: Utils.buildConstantArgumentMsg(id)
@@ -29,4 +28,4 @@ class __SchemaTrasformation(DistributedElements.DistributedPrimitive):
             yield request.replyFail()
             
             
-schemaTrasformation = DistributedElements.DistributedPrimitiveWrapper("schema_trasformation", 2, __SchemaTrasformation())
+schemaTrasformation = DistributedElements.DistributedPrimitiveWrapper("schema_transformation", 2, __SchemaTrasformation())

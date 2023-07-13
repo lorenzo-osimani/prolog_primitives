@@ -46,4 +46,4 @@ class __TheoryToSchemaPrimitive(DistributedElements.DistributedPrimitive):
             request.replyFail()
             
             
-theoryToSchemaPrimitive = DistributedElements.DistributedPrimitiveWrapper("theoryToSchema", 1, __TheoryToSchemaPrimitive())
+theoryToSchemaPrimitive = DistributedElements.DistributedPrimitiveWrapper("theory_to_schema", 1, __TheoryToSchemaPrimitive())

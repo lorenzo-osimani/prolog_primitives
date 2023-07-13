@@ -15,7 +15,6 @@ class __Fit(DistributedElements.DistributedPrimitive):
         if(not transf_in_ref.HasField('var') and not dataset_ref.HasField('var') and transf_out_ref.HasField('var')):
             transf: Pipeline = SharedCollections().getPipeline(Utils.parseArgumentMsg(transf_in_ref))
             dataset: Dataset = SharedCollections().getDataset(Utils.parseArgumentMsg(dataset_ref))
-            
             id = SharedCollections().addPipeline(transf.adapt(dataset))
             yield request.replySuccess(substitutions={
                 transf_out_ref.var: Utils.buildConstantArgumentMsg(id)

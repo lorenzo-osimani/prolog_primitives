@@ -23,22 +23,17 @@ class __Predict(DistributedElements.DistributedPrimitive):
             if(dataset != None):
                 schemaId = SharedCollections().getSchemaIdFromDataset(datasetId)
                 schema = SharedCollections().getSchema(schemaId)
+                data = list()
                 for attr in dataset.column_names:
                     if(not attr in schema.targets):
-                        if(data == None):
-                            data = tf.cast(dataset[attr], tf.float32)
-                        else:
-                            data = tf.stack([data, tf.cast(dataset[attr], tf.float32)], axis = 1)
-                            
-                
+                        data.append(tf.cast(dataset[attr], tf.float32))
+                data = tf.stack(data, axis = 1)
                 result = {}
                 for attr in schema.targets:
                     result[attr] = []
-                
                 for row in model.predict(x=data):
                     for attr, y in zip(schema.targets, row):
                         result[attr].append(y)
-
                 dataset = Dataset.from_dict(result).with_format("tf")
                 datasetId = SharedCollections().addDataset(dataset, schemaId)
             
@@ -50,7 +45,6 @@ class __Predict(DistributedElements.DistributedPrimitive):
                 data = tf.constant(value=[row], dtype=tf.float32)
             
                 result = model.predict(x=data)[0]
-                
                 yield request.replySuccess(substitutions={
                     prediction_ref.var: Utils.fromListToArgumentMsg(result.tolist())
                     }, hasNext=False)

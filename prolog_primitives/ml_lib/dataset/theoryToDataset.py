@@ -14,7 +14,7 @@ class __TheoryToDatasetPrimitive(DistributedElements.DistributedPrimitive):
         dataset_ref = request.arguments[1]
         if(not schema_name.HasField("var") and dataset_ref.HasField("var")):
             schemaId = str(Utils.parseArgumentMsg(next(request.subSolve(
-                query = basicMsg.StructMsg(functor="theoryToSchema", arguments=[basicMsg.ArgumentMsg(var="X")]))
+                query = basicMsg.StructMsg(functor="theory_to_schema", arguments=[basicMsg.ArgumentMsg(var="X")]))
                  ).substitutions["X"]))         
             schema = SharedCollections().getSchema(schemaId)
             

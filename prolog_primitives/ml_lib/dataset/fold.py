@@ -3,6 +3,7 @@ from typing import Generator
 from prolog_primitives.basic import Utils
 from ..collections import SharedCollections
 from sklearn.model_selection import KFold
+from datasets import Dataset
 
 class __FoldPrimitive(DistributedElements.DistributedPrimitive):
     
@@ -19,9 +20,8 @@ class __FoldPrimitive(DistributedElements.DistributedPrimitive):
             k = int(Utils.parseArgumentMsg(k))
             for kfold, (train, test) in enumerate(KFold(n_splits=k, 
                                 shuffle=True).split(dataset)):
-                train_ds = dataset[train]   
-                val_ds = dataset[test]
-                
+                train_ds = Dataset.from_dict(dataset[train]).with_format("tf")  
+                val_ds = Dataset.from_dict(dataset[test]).with_format("tf")  
                 
                 train_id = SharedCollections().addDataset(train_ds, schemaId)
                 val_id = SharedCollections().addDataset(val_ds, schemaId)

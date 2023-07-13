@@ -3,6 +3,7 @@ import tensorflow as tf
 from ..collections import SharedCollections
 from ..schema.schemaClass import Schema
 from datasets import Dataset
+import itertools
 
 class Transformation(ABC):
     applier = None
@@ -49,13 +50,14 @@ class Dropper(Transformation):
 class Pipeline:   
     originalSchemaId: str = None
     originalSchema: Schema = None
-    __layers: dict = {}
+    __layers: dict
 
     def __init__(self,
                  originalSchema: str,
                  layers: dict = {}):
         self.originalSchemaId = originalSchema 
         self.originalSchema = SharedCollections().getSchema(originalSchema)
+        self.__layers = {}
         for attr in self.originalSchema.attributes:
             self.__layers[attr.name] = [] + layers.get(attr.name, [])
         
@@ -84,6 +86,9 @@ class Pipeline:
             output[attr] = tf.reshape(inputs[attr], (len(inputs[attr]), -1))
             for layer in layers:  
                 output[attr] = layer.applier(output[attr])
+
+            
+            
         return Dataset.from_dict(output)
         
     def invert(self, inputs):
