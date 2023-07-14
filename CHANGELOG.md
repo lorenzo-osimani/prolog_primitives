@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/lorenzo-osimani/prolog_primitives/compare/1.1.0...1.1.1) (2023-07-13)
+
+
+### Bug Fixes
+
+* **core:** fixed bug in score.py ([b17df44](https://github.com/lorenzo-osimani/prolog_primitives/commit/b17df44388b284bdc4a979a27c7a985aa596c6d4))
+
 ## [1.1.0](https://github.com/lorenzo-osimani/prolog_primitives/compare/1.0.5...1.1.0) (2023-07-13)
 
 
