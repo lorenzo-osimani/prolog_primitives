@@ -58,7 +58,7 @@ def serve(primitive: DistributedElements.DistributedPrimitiveWrapper, port: int 
     server.start()
     if(withDB):
         DBManager.addPrimitive(service.functor, service.arity, libraryName, "localhost", port)
-    print("Server started, listening on " + str(port))
+    print(f"Server of {primitive.functor}\{primitive.arity} started, listening on {port}", flush=True)
     return server
         
 

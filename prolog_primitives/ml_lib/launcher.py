@@ -52,7 +52,7 @@ def main():
         launchPrimitive(primitive, port)
         port += 1
 
-    print(f"Servers listening from {initialport} to {port-1}")
+    print(f"Servers listening from {initialport} to {port-1}", flush=True)
 
     try:
         for server in servers:

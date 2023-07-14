@@ -15,8 +15,9 @@ class Transformation(ABC):
     
 class Normalization(Transformation):
     
-    applier = tf.keras.layers.Normalization()
-    inverter = tf.keras.layers.Normalization(invert=True)
+    def __init__(self):
+        self.applier = tf.keras.layers.Normalization()
+        self.inverter = tf.keras.layers.Normalization(invert=True)
         
     def adapt(self, inputs):
         self.applier.adapt(inputs)
@@ -59,7 +60,7 @@ class Pipeline:
         self.originalSchema = SharedCollections().getSchema(originalSchema)
         self.__layers = {}
         for attr in self.originalSchema.attributes:
-            self.__layers[attr.name] = [] + layers.get(attr.name, [])
+            self.__layers[attr.name] = layers.get(attr.name, [])
         
     def append(self, pipeline: dict):
         new_pipeline = {}
@@ -70,7 +71,7 @@ class Pipeline:
     def adapt(self, inputs):
         newLayers = dict.fromkeys(self.__layers.keys())
         for attr, layers in self.__layers.items():
-            data = tf.reshape(inputs[attr], (len(inputs[attr]), -1))
+            data = tf.reshape(inputs[attr], (len(inputs[attr]), 1))
             newLayers[attr] = []
             for layer in layers:
                 copied = layer.copy()
@@ -78,17 +79,15 @@ class Pipeline:
                     copied.adapt(data)
                 data = copied.applier(data)
                 newLayers[attr].append(copied)
+
         return Pipeline(self.originalSchemaId, newLayers)
         
     def apply(self, inputs):
         output = {}
         for attr, layers in self.__layers.items():
-            output[attr] = tf.reshape(inputs[attr], (len(inputs[attr]), -1))
+            output[attr] = tf.reshape(inputs[attr], (len(inputs[attr]), 1))
             for layer in layers:  
                 output[attr] = layer.applier(output[attr])
-
-            
-            
         return Dataset.from_dict(output)
         
     def invert(self, inputs):
@@ -96,7 +95,7 @@ class Pipeline:
         for attr, layers in self.__layers.items():
             reversedList = list(layers)
             reversedList.reverse()
-            output[attr] = tf.reshape(inputs[attr], (len(inputs[attr]), -1))
+            output[attr] = tf.reshape(inputs[attr], (len(inputs[attr]), 1))
             for layer in reversedList:  
                 output[attr] = layer.inverter(output[attr])
         return Dataset.from_dict(output)

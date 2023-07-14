@@ -63,7 +63,7 @@ class __Train(DistributedElements.DistributedPrimitive):
             model.compile(
                 loss = params["loss"],
                 optimizer=optimizer,
-                metrics=["mse"],
+                metrics=['mae', 'mse'],
             )
             model.fit(x=input,y=output, batch_size=params["batch"], epochs=params["epoch"])
             id = SharedCollections().addModel(model)
