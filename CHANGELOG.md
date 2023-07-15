@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/lorenzo-osimani/prolog_primitives/compare/1.1.1...1.1.2) (2023-07-14)
+
+
+### Bug Fixes
+
+* **core:** fixed transformations bug and prints ([b440a97](https://github.com/lorenzo-osimani/prolog_primitives/commit/b440a97946b276ab740076895ff7257a1b47ed1d))
+
 ## [1.1.1](https://github.com/lorenzo-osimani/prolog_primitives/compare/1.1.0...1.1.1) (2023-07-13)
 
 
