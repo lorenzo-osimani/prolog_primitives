@@ -18,15 +18,13 @@ def parseParams(structs: list[Utils.Struct]):
         elif(struct.functor == "batch_size"):
             params['batch'] = int(struct.arguments[0])
         elif(struct.functor == "learning_rate"):
-            params['learning_rate'] = float(struct.arguments[0])
+            params['learning_rate'] = struct.arguments[0]
         elif(struct.functor == "loss"):
             loss = struct.arguments[0]
-            if(loss == "mse"):
-                params['loss'] = "mse"
-            elif(loss == "mae"):
-                params['loss'] = "mae"
-            elif(loss == "cross_entropy"):
+            if(loss == "cross_entropy"):
                 params['loss'] = tf.keras.losses.BinaryCrossentropy()
+            else: 
+                params['loss'] = loss
     return params
 
 class __Train(DistributedElements.DistributedPrimitive):
@@ -45,10 +43,10 @@ class __Train(DistributedElements.DistributedPrimitive):
             schema = SharedCollections().getSchema(SharedCollections().getSchemaIdFromDataset(datasetId))
             
             params = Utils.parseArgumentMsg(params)
-            if(type(params) is list[Utils.Struct]):
+            if(type(params) is list):
                 params = parseParams(params)
             else:
-                params = parseParams(dict())
+                params = parseParams(list())
             input = list()
             output = list()
             for attr in dataset.column_names:
@@ -56,6 +54,7 @@ class __Train(DistributedElements.DistributedPrimitive):
                     output.append(tf.cast(dataset[attr], tf.float32))
                 else:
                     input.append(tf.cast(dataset[attr], tf.float32))
+            
             output = tf.stack(output, axis = 1)
             input = tf.stack(input, axis = 1)
             optimizer = tf.keras.optimizers.Adam(learning_rate=params["learning_rate"])
@@ -63,9 +62,10 @@ class __Train(DistributedElements.DistributedPrimitive):
             model.compile(
                 loss = params["loss"],
                 optimizer=optimizer,
-                metrics=['mae', 'mse'],
+                metrics=['mae'],
             )
-            model.fit(x=input,y=output, batch_size=params["batch"], epochs=params["epoch"])
+            model.fit(x=input,y=output,  epochs=params["epoch"], validation_split=0.05)
+            
             id = SharedCollections().addModel(model)
             yield request.replySuccess(substitutions={
                 predictor_out_ref.var: Utils.buildConstantArgumentMsg(id)

@@ -88,6 +88,7 @@ class Pipeline:
             output[attr] = tf.reshape(inputs[attr], (len(inputs[attr]), 1))
             for layer in layers:  
                 output[attr] = layer.applier(output[attr])
+            output[attr] = tf.reshape(output[attr], len(inputs[attr]))
         return Dataset.from_dict(output)
         
     def invert(self, inputs):

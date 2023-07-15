@@ -28,12 +28,12 @@ class __Predict(DistributedElements.DistributedPrimitive):
                     if(not attr in schema.targets):
                         data.append(tf.cast(dataset[attr], tf.float32))
                 data = tf.stack(data, axis = 1)
+                
+                predictions = model.predict(x=data)
                 result = {}
-                for attr in schema.targets:
-                    result[attr] = []
-                for row in model.predict(x=data):
-                    for attr, y in zip(schema.targets, row):
-                        result[attr].append(y)
+                for target, values in zip(schema.targets, tf.reshape(predictions, (len(schema.targets), len(predictions)))):
+                    result[target] = values
+
                 dataset = Dataset.from_dict(result).with_format("tf")
                 datasetId = SharedCollections().addDataset(dataset, schemaId)
             

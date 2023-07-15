@@ -26,17 +26,17 @@ class __TheoryToDatasetPrimitive(DistributedElements.DistributedPrimitive):
                     yield request.replyFail()
                 elif(i != None):
                     i = Utils.parseStructMsg(i.arguments[0].struct)
-                    for j in zip(schema.attributes, i.arguments):
-                        value = j[0].typeCastElement(str(j[1]))
+                    for attr, arg in zip(schema.attributes, i.arguments):
+                        value = attr.typeCastElement(arg)
                         if(value == None):
                             yield request.replyError(primitiveMsg.ErrorMsg(
-                                message = "One of " + j[0].name + " was not the correct type",
+                                message = "One of " + attr.name + " was not the correct type",
                                 context=request.context,
                                 resolutionException = errorMsg.ResolutionExceptionMsg()
                             ))
                             raise Exception("Wrong typecasting in attributes")
                         else:
-                            data[j[0].name].append(value)
+                            data[attr.name].append(value)
             
             dataset = Dataset.from_dict(data).with_format("tf")
             datasetId = SharedCollections().addDataset(dataset, schemaId)

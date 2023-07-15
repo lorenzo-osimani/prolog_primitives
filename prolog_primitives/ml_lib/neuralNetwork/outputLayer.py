@@ -21,7 +21,7 @@ class __OutputLayer(DistributedElements.DistributedPrimitive):
                 activation = None
 
             output = tf.keras.layers.Dense(
-                units=int(Utils.parseArgumentMsg(size)),
+                units=Utils.parseArgumentMsg(size),
                 activation=activation,
                 name="output")
             topology.append(output)

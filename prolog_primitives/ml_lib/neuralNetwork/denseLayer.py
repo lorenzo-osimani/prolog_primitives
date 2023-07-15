@@ -21,9 +21,9 @@ class __DenseLayer(DistributedElements.DistributedPrimitive):
                 activation = None
 
             dense = tf.keras.layers.Dense(
-                units=int(Utils.parseArgumentMsg(size)),
+                units=Utils.parseArgumentMsg(size),
                 activation=activation,
-                name="dense_"+str(len(topology)))
+                name=f"dense_{len(topology)}")
             topology.append(dense)
             
             id = SharedCollections().addTopology(topology)

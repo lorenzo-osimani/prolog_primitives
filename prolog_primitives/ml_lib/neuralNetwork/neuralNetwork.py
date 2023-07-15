@@ -14,13 +14,7 @@ class __NeuralNetwork(DistributedElements.DistributedPrimitive):
         if(not topology_ref.HasField('var') and predictor_ref.HasField('var')):
             topology = SharedCollections().getTopology(Utils.parseArgumentMsg(topology_ref))
             
-            output = topology[0]
-            for i in topology[1:]:
-                output = i(output)
-            
-            model = tf.keras.Model(
-                inputs=[topology[0]], outputs = [output]
-            )
+            model = tf.keras.Sequential(topology)
             
             id = SharedCollections().addModel(model)
             yield request.replySuccess(substitutions={
