@@ -43,7 +43,7 @@ def main():
                 trainPrimitive, predictPrimitive, classifyPrimitive, msePrimitive,
                 maePrimitive, accuracyPrimitive, recallPrimitive, rPrimitive]
 
-    initialport = 8080
+    initialport = 8100
     port = initialport
     executor = ThreadPoolExecutor(max_workers=len(primitives))
 
