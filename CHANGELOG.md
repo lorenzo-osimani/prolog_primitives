@@ -1,3 +1,10 @@
+## [1.2.0](https://github.com/lorenzo-osimani/prolog_primitives/compare/1.1.2...1.2.0) (2023-07-15)
+
+
+### Features
+
+* **core:** improved fit and predict ([8d109b5](https://github.com/lorenzo-osimani/prolog_primitives/commit/8d109b5da44af569d2cd2cdda17739891c93d23e))
+
 ## [1.1.2](https://github.com/lorenzo-osimani/prolog_primitives/compare/1.1.1...1.1.2) (2023-07-14)
 
 
