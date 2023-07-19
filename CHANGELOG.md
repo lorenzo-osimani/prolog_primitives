@@ -1,3 +1,11 @@
+## [1.2.1](https://github.com/lorenzo-osimani/prolog_primitives/compare/1.2.0...1.2.1) (2023-07-19)
+
+
+### Bug Fixes
+
+* **ci:** modified services port ([7833f9b](https://github.com/lorenzo-osimani/prolog_primitives/commit/7833f9b6bd9714bba5f00b0332b6b82b1dc164e1))
+* **core:** changed base ports ([bac0a50](https://github.com/lorenzo-osimani/prolog_primitives/commit/bac0a500d1553167ebe32423c03401c6ff8b4ec5))
+
 ## [1.2.0](https://github.com/lorenzo-osimani/prolog_primitives/compare/1.1.2...1.2.0) (2023-07-15)
 
 
