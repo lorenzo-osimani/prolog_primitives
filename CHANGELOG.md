@@ -1,3 +1,12 @@
+## [1.2.2](https://github.com/lorenzo-osimani/prolog_primitives/compare/1.2.1...1.2.2) (2023-07-21)
+
+
+### Bug Fixes
+
+* **ci:** added ci in 3.11 ([227a2a6](https://github.com/lorenzo-osimani/prolog_primitives/commit/227a2a63c219f8234cf8d5c70337c4e17f3d8d62))
+* **ci:** modified sklearn version used ([dfe5fde](https://github.com/lorenzo-osimani/prolog_primitives/commit/dfe5fde26a1adea40efdd6888a05150f46c22bb6))
+* **ci:** modifying sklearn version, fixing bug with python 3.11 ([9f074ec](https://github.com/lorenzo-osimani/prolog_primitives/commit/9f074ecfdaf608ddbd34c6ab2b93bf4dac8af1be))
+
 ## [1.2.1](https://github.com/lorenzo-osimani/prolog_primitives/compare/1.2.0...1.2.1) (2023-07-19)
 
 
