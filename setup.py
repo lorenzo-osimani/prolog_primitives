@@ -124,7 +124,7 @@ setup(
     include_package_data=True,
     python_requires='>=3.9.0, <=3.11.3',
     install_requires=[
-        'scikit-learn>=1.0.2',
+        'scikit-learn==1.0.2',
         'pandas>=1.4.2',
         'grpcio>=1.54.0',
         'grpcio-tools>=1.54.0',
